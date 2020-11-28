@@ -37,7 +37,7 @@ const ProductCard = () => {
 const Productwrapper = styled.div`
 min-height: 350px;
 width: 100%;
-max-width: 350px;
+max-width: 330px;
 margin: 0 auto;
 border-radius: 10px;
 display: flex;

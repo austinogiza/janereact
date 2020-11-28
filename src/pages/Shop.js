@@ -94,6 +94,11 @@ display: grid;
 grid-template-columns: 300px auto;
 grid-auto-rows: minmax(100px,auto);
 grid-gap: 50px;
+
+@media only screen and (max-width: 850px){
+    grid-template-columns: 1fr;
+
+}
 `
 const Productfilter =styled.div`
 height: 200px;
@@ -105,8 +110,13 @@ min-height: 600px;
 width:100%;
 display: grid;
 grid-template-columns: repeat(3,1fr);
-grid-auto-rows: minmax(400px,auto);
+grid-auto-rows: minmax(350px,auto);
 grid-gap: 30px;
+
+@media only screen and (max-width: 650px){
+    grid-template-columns: repeat(1,1fr);
+
+}
 `
 
 export default Shop

@@ -135,10 +135,8 @@ grid-gap: 20px;
     grid-template-columns: repeat(3,1fr);
 }
 
-@media only screen and (max-width:550px){
+@media only screen and (max-width:650px){
     grid-template-columns: repeat(1,1fr);
-    align-items: center;
-justify-content: center;
 
 }
 
