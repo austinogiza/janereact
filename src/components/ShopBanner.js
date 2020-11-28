@@ -22,6 +22,7 @@ color: ${themes.white};
 display: flex; 
 justify-content: center;
 align-items: center;
+padding: 10px;
 `
 const ShopText = styled(Caption)`
 
