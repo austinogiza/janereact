@@ -152,7 +152,7 @@ grid-gap: 20px;
 }
 
 @media only screen and (max-width:550px){
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(1,1fr);
 }
 @media only screen and (max-width:350px){
     grid-template-columns: repeat(1,1fr);
