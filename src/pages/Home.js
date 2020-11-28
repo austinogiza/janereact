@@ -51,8 +51,8 @@ const Home = () => {
             <Product>
 <Productcontainer>
 
-    <ProductTitle><Titleh1>Our <span>Shoes</span></Titleh1></ProductTitle>
-    <Products>
+    <ProductTitle><Titleh1>Our Fab <span>Products</span></Titleh1></ProductTitle>
+    <Products className="products">
     <ProductCard/>
     <ProductCard/>
     <ProductCard/>
@@ -67,39 +67,7 @@ const Home = () => {
 
 
             <Banner/>
-            <Product>
-<Productcontainer>
-
-    <ProductTitle><Titleh1>Our <span>Clothes</span></Titleh1></ProductTitle>
-    <Products>
-    <ProductCard/>
-    <ProductCard/>
-    <ProductCard/>
-    <ProductCard/>
-    <ProductCard/>
-    <ProductCard/>
-    <ProductCard/>
-    </Products>
-</Productcontainer>
-
-            </Product>
-            <Banner/>
-            <Product>
-<Productcontainer>
-
-    <ProductTitle><Titleh1>Our <span>Accessories</span></Titleh1></ProductTitle>
-    <Products>
-    <ProductCard/>
-    <ProductCard/>
-    <ProductCard/>
-    <ProductCard/>
-    <ProductCard/>
-    <ProductCard/>
-    <ProductCard/>
-    </Products>
-</Productcontainer>
-
-            </Product>
+       
             <Newsletter/>
             <Bonus/>
         </div>
@@ -118,9 +86,15 @@ const Product = styled.div`
 width: 100%;
 min-height:500px;
 margin: 30px 0;
+display: flex;
+align-items: center;
+justify-content: center;
 `
 const Productcontainer = styled.div`
-
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
 max-width:1200px;
 margin: 0 auto;
 
@@ -135,17 +109,27 @@ width:100%;
 display: flex;
 align-items: center;
 justify-content: center;
-margin: 16px 0;
+margin: 40px 0;
+padding: 10px 25px;
 span{
     color: ${themes.jane};
 }
 
 `
-const Titleh1 = styled(H1)``
+const Titleh1 = styled(H1)`
+text-align: center;
+`
+
 const Products = styled.div`
+height: 100%;
+width: 100%;
 display: grid;
+align-items: center;
+justify-content: center;
 grid-template-columns: repeat(4,1fr);
 grid-gap: 20px;
+
+
 
 @media only screen and (max-width:850px){
     grid-template-columns: repeat(3,1fr);
@@ -153,10 +137,11 @@ grid-gap: 20px;
 
 @media only screen and (max-width:550px){
     grid-template-columns: repeat(1,1fr);
+    align-items: center;
+justify-content: center;
+
 }
-@media only screen and (max-width:350px){
-    grid-template-columns: repeat(1,1fr);
-}
+
 `
 
 export default Home

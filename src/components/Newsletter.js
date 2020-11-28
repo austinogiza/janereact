@@ -90,7 +90,8 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-margin: 16px 0;
+margin:32px 0;
+text-align: center;
 `
 const Newstext = styled(H2)`
 margin: 8px 0;

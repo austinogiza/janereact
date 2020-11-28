@@ -11,7 +11,7 @@ const ProductCard = () => {
     return (
 
 
-<Productwrapper>
+<Productwrapper className="productwrapper">
             <Productbody>
             <Link > <Productimage src={img} /></Link>
           <Link > <Producttitle>Shoe</Producttitle> </Link>
@@ -37,8 +37,15 @@ const ProductCard = () => {
 const Productwrapper = styled.div`
 min-height: 350px;
 width: 100%;
-max-width: 300px;
+max-width: 350px;
+margin: 0 auto;
 border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+
+
 
 background: ${themes.white};
 
@@ -57,6 +64,7 @@ width: 100%;
 height: 100%;
 display:flex;
 flex-direction: column;
+padding: 0 0 20px 0;
 
 `
 const Productimage = styled.img`

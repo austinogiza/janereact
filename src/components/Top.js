@@ -8,21 +8,24 @@ const Top = () => {
     const [showScroll, setShowScroll] = useState(false)
 
 
-    const checkScrollTop = e =>{
 
-      switch (true) {
-         case !showScroll && window.pageYOffset > 200:
-            setShowScroll(true)
-            break;
-         case showScroll && window.pageYOffset <= 400:
-            setShowScroll(false)
-            break;
-         default:
-            setShowScroll(false)
-            break;
-      }
-      window.addEventListener('scroll', checkScrollTop)
+    
+ useEffect(() => {
+   window.addEventListener('scroll', checkScrollTop);
+  
+ }, [])
 
+  const checkScrollTop = e =>{
+    
+   if ( window.pageYOffset > 100 ){
+      setShowScroll(true)
+   }
+
+   else{
+      setShowScroll(false)
+
+   }
+}
 
 
     const backToTop = e =>{

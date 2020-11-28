@@ -22,7 +22,7 @@ color: ${themes.white};
 display: flex; 
 justify-content: center;
 align-items: center;
-padding: 10px;
+padding: 20px;
 `
 const ShopText = styled(Caption)`
 
@@ -31,8 +31,8 @@ const ShopText = styled(Caption)`
 const ShopNow = styled(Link)`
 background: ${themes.white};
 font-size: 12px;
-margin: 10px ;
-padding: 4px 6px;
+margin: 10px 15px;
+padding: 4px 8px;
 border-radius:5px;
 box-shadow: ${themes.shadow};
 transition: 0.3s ease-in;
