@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { themes } from '../styles/ColorStyles'
-import {H2, P} from '../styles/TextStyles'
+import {Caption, H2} from '../styles/TextStyles'
 import paystack from '../images/paystack.svg'
 import facebook from '../images/facebook.svg'
 import instagram from '../images/instagram.svg'
@@ -72,7 +72,7 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 `
-const Footercopyright = styled(P)`
+const Footercopyright = styled(Caption)`
 color: ${themes.white};
 text-transform: capitalize;
 font-family: "Inter", sans-serif;
@@ -98,7 +98,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-padding: 10px 15px;
+padding: 10px 25px;
 `
 
 const Footersocial = styled.img`
@@ -126,6 +126,7 @@ margin: 8px 0;
 `
 
 const FooterLinks = styled.div`
+text-align: center;
 margin: 8px 0;
 width: 100%;
 min-height: 50px;
@@ -183,6 +184,7 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 margin: 8px 0;
+text-align: center;
 `
 
 const Footertext = styled.div`
@@ -193,6 +195,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
+text-align: center;
 `
 const Footerimage = styled.div`
 

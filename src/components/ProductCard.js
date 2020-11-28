@@ -8,6 +8,13 @@ import {MdSearch, MdShoppingCart} from 'react-icons/md'
 
 
 const ProductCard = () => {
+
+    const cardAdd = e=>{
+        alert('added')
+    }
+const cardSearch = e =>{
+    alert('search')
+}
     return (
 
 
@@ -18,11 +25,11 @@ const ProductCard = () => {
       
           <Productprice>&#8358;10,000 <strike>&#8358;10,000</strike></Productprice>
          <Productclick>
-         <Productadd>
+         <Productadd onClick={cardAdd}>
 <Productaddicon></Productaddicon>
 
          </Productadd>
-          <Productsearch>
+          <Productsearch onClick={cardSearch}>
 <Productsearchicon></Productsearchicon>
 
           </Productsearch>
@@ -37,7 +44,7 @@ const ProductCard = () => {
 const Productwrapper = styled.div`
 min-height: 350px;
 width: 100%;
-max-width: 330px;
+max-width: 300px;
 margin: 0 auto;
 border-radius: 10px;
 display: flex;

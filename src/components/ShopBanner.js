@@ -23,12 +23,17 @@ display: flex;
 justify-content: center;
 align-items: center;
 padding: 20px;
+
+
 `
 const ShopText = styled(Caption)`
+text-align:center;
+
 
 `
 
 const ShopNow = styled(Link)`
+text-align:center;
 background: ${themes.white};
 font-size: 12px;
 margin: 10px 15px;
@@ -39,6 +44,13 @@ transition: 0.3s ease-in;
 :hover{
     background: ${themes.janeBright};
 }
+
+@media only screen and (max-width:550px){
+    font-size: 9px;
+
+}
+
+
 `
 
 export default ShopBanner
