@@ -13,11 +13,13 @@ import Dashboard from './pages/Dashboard'
 import Shop from './pages/Shop'
 import Detailed from './pages/Detailed'
 import Returns from './pages/Returns'
+import Login from './pages/Login'
+import SignUp from './pages/SignUp'
 import Layout from './container/Layout'
 import './App.css'
 import ScrollToTop from './components/ScrollTop'
 import Top from './components/Top'
-
+import {connect} from 'react-redux'
 const history = createBrowserHistory()
 const App = () => {
   return (
@@ -40,6 +42,8 @@ const App = () => {
 <Route exact path='/shop' component={Shop}/>
 <Route exact path='/product/:slug' component={Detailed}/>
 <Route exact path='/returns' component={Returns}/>
+<Route exact path='/login' component={Login}/>
+<Route exact path='/signup' component={SignUp}/>
 
 
 </Switch>
@@ -54,4 +58,4 @@ const App = () => {
   )
 }
 
-export default App
+export default connect()(App)
