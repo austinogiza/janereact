@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import {createBrowserHistory}from 'history'
 import Home from './pages/Home'
@@ -19,17 +19,32 @@ import Layout from './container/Layout'
 import './App.css'
 import ScrollToTop from './components/ScrollTop'
 import Top from './components/Top'
-import {connect} from 'react-redux'
-const history = createBrowserHistory()
-const App = () => {
+import { connect} from 'react-redux'
+import * as actions from './store/actions/auth'
+import NotFound from './pages/NotFound'
+import { GlobalStyles } from './styles/GlobalStyles'
+
+
+
+
+
+const App = (props) => {
+
+  const history = createBrowserHistory()
+  
+  useEffect(() => {
+
+    props.onTryAutoSignup();
+
+  })
   return (
    <React.Fragment>
    <Router history={history}>
-<Layout>
 
+<Layout {...props}>
+<GlobalStyles />
 <ScrollToTop/>
 <Switch>
-
 <Route exact path='/' component={Home}/>
 <Route exact path='/about' component={About}/>
 <Route exact path='/blog' component={Blog}/>
@@ -44,8 +59,7 @@ const App = () => {
 <Route exact path='/returns' component={Returns}/>
 <Route exact path='/login' component={Login}/>
 <Route exact path='/signup' component={SignUp}/>
-
-
+<Route component={NotFound}/>
 </Switch>
 <Top/>
 </Layout>  
@@ -58,4 +72,21 @@ const App = () => {
   )
 }
 
-export default connect()(App)
+
+
+
+const mapStateToProps = state =>{
+  return {
+    authenticated: state.auth.token !== null,
+    cart: state.cart.shoppingCart
+
+  }
+}
+
+const mapDispatchToProps = dispatch =>{
+  return{
+    onTryAutoSignup: () => dispatch(actions.authCheckState())
+
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(App)

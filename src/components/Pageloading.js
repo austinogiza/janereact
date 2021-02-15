@@ -1,21 +1,12 @@
-import React from 'react'
-import styled from 'styled-components';
-import animation from '../Lottie/page.gif'
+import Spinner from 'react-spinner-material';
+import React, { Component } from 'react';
 
-const Pageloading = () => {
-
-    return (
-       <Lottiepage>
-      <img src={animation} alt="{Jane's Page loading"/>
-
-
-       </Lottiepage>
-    )
+export default class Example extends Component {
+  render() {
+  return (
+      <div>
+        <Spinner radius={100} color={"#B97778"} stroke={5} visible={true} />
+      </div>
+    );
+  }
 }
-
-const Lottiepage =styled.div`
-width: 100%;
-height:100%;
-` 
-
-export default Pageloading

@@ -1,12 +1,25 @@
-const host = "http://127.0.0.1:8000"
+const host = "http://127.0.0.1:8000/"
 
-const blog = "/blog";
-const api = "/api";
+const blog = "blog";
+const api = "api";
 
+export const endpoint = `${host}${api}`
+export const orderSummaryURL = `${endpoint}/order-summary/`
+export const addToCartUrl = `${endpoint}/add-to-cart/`
+export const productList = `${endpoint}/list/`
 export const blogList = `${host}${blog}/blog/`
-export const blogDetail= slug => `${host}${blog}/blog/${slug}`
-export const contact = `${host}${api}/contact/`
-export const newsletter = `${host}${api}/newsletter/`
-
-export const loginURL = `${host}/rest-auth/login`
+export const blogDetail= slug => `${host}${blog}/blog/${slug}/`
+export const contact = `${endpoint}/contact/`
+export const newsletter = `${endpoint}/newsletter/`
+export const loginURL = `${host}/rest-auth/login/`
 export const signURL = `${host}/rest-auth/registration/`
+export const orderItemDeleteURL = id => `${endpoint}/order-item/${id}/delete/`
+export const orderItemUpdateQuantityURL =  `${endpoint}/order-item/update-quantity/`
+export const addressListUrl = `${endpoint}/address-list/`
+export const countriesListURL = `${endpoint}/countries/`
+export const addressCreate = `${endpoint}/address/create/`
+export const productDetail = slug => `${endpoint}/product/${slug}/`
+
+
+
+

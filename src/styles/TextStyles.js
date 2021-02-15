@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-
-
 export const H1 = styled.h1`
 font-size: 50px;
 line-height: 60px;
@@ -35,6 +33,17 @@ font-family: "Inter", sans-serif;
     line-height: 30px;
 }
 `
+export const product = styled.h3`
+font-size: 21px;
+font-weight: 600;
+line-height: 28px;
+font-family: "Inter", sans-serif;
+@media only screen and (max-width:550px){
+    font-size: 18px;
+    line-height: 23px;
+}
+`
+
 
 export const P = styled.p`
 font-size: 20px;
@@ -62,7 +71,6 @@ font-family: "Inter", sans-serif;
 export const Small = styled.p`
 font-size: 17px;
 font-weight: 400;
-
 line-height: 25px;
 font-family: "Inter", sans-serif;
 @media only screen and (max-width:550px){

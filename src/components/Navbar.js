@@ -1,18 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { themes } from '../styles/ColorStyles'
 import logo from '../images/logo.svg'
 import { Link } from 'react-router-dom'
-import { BiCart, BiLogOut, BiSearch, BiUser } from 'react-icons/bi'
+import { BiCart, BiLogOut, BiUser } from 'react-icons/bi'
+import { connect } from 'react-redux'
+import {logout} from '../store/actions/auth'
+import { fetchCart } from '../store/actions/cart'
 
 
-const Navbar = () => {
+const Navbar = (props) => {
 
   const [menu, setMenu] = useState(false)
+  const { authenticated, cart } = props;
 
   const toggle = e => {
     setMenu(!menu)
   }
+
+
+
+  useEffect(() => {
+  props.fetchCart()
+
+},[])
+
   return (
     <Nav>
 
@@ -39,21 +51,15 @@ const Navbar = () => {
           </Navlogo>
 
           <Cart>
-            <Cartsignin>
-              <Link to='/login'><Signinicon />
-                <p>Sign In</p>
-              </Link>
+          { authenticated ? <Cartlogout onClick={()=> props.logout()}>
+<Logouticon/></Cartlogout> : <Cartsignin> <Link to='/login'><Signinicon /></Link>
 
 
-            </Cartsignin>
-            {/* <Cartlogout>
-<Logouticon/>
-<p>Logout</p>
-</Cartlogout> */}
-
+            </Cartsignin> }
             <Carticon>
-              <Link to='/cart'>  <Carticonsmall /> 3</Link>
+              <Link to='/cart'>  <Carticonsmall /> {cart !== null ? cart.order_items.length : 0 }</Link>
             </Carticon>
+           
 
           </Cart>
         </Navtop>
@@ -103,9 +109,10 @@ flex-direction: column;
 padding: 10px 25px;
 `
 const Navtop = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
+display: grid;
+grid-template-columns:1.2fr 2fr 1fr;
+grid-gap: 30px;
+
 align-items: center;
 height: 70px;
 width: 100%;
@@ -115,6 +122,7 @@ padding: 15px 10px;
 const Searchcover = styled.div`
 height: 50px;
 width: 100%;
+max-width: 400px;
 `
 
 const Mobilesearch = styled.div`
@@ -238,6 +246,7 @@ const Cart = styled.div`
 display: flex;
 flex-direction: row;
 width: 100%;
+max-width: 150px;
 
 `
 
@@ -366,6 +375,7 @@ padding: 10px 15px;
 const Navlogo = styled.div`
 width: 100%;
 height: 100%;
+
 display: flex;
 flex-direction: row;
 justify-content: center;
@@ -409,5 +419,18 @@ a{
   font-weight: 500;
 }
 `
+const mapStateToProps = state =>{
+  return {
+    authenticated: state.auth.token !== null,
+    cart: state.cart.shoppingCart
+  }
+}
 
-export default Navbar
+const mapDispatchToProps = dispatch =>{
+    return{
+      logout: ()  => dispatch(logout()),
+      fetchCart: () => dispatch(fetchCart())
+      
+    };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(Navbar);

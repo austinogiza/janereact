@@ -18,7 +18,7 @@ const BlogDetail = () => {
     const { slug } = useParams()
 
     useEffect(() => {
-    
+
         async function fetchData(){
             setLoading(true)
             try {

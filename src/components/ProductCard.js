@@ -1,32 +1,31 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import img from '../images/product.jpg'
+
 import { themes } from '../styles/ColorStyles'
-import {  H3, Small } from '../styles/TextStyles'
+import {  product, Small } from '../styles/TextStyles'
 import {MdSearch, MdShoppingCart} from 'react-icons/md'
 
 
-const ProductCard = () => {
+const ProductCard = ({img,title, price,discount, cardAdd, cardSearch}) => {
 
-    const cardAdd = e=>{
-        alert('added')
-    }
-const cardSearch = e =>{
-    alert('search')
-}
+  
+
     return (
 
 
 <Productwrapper className="productwrapper">
             <Productbody>
             <Link > <Productimage src={img} /></Link>
-          <Link > <Producttitle>Shoe</Producttitle> </Link>
+          <Link > <Producttitle>{title}</Producttitle> </Link>
       
-          <Productprice>&#8358;10,000 <strike>&#8358;10,000</strike></Productprice>
+          <Productprice>&#8358;{price}<strike>&#8358;{discount}</strike></Productprice>
          <Productclick>
-         <Productadd onClick={cardAdd}>
-<Productaddicon></Productaddicon>
+         <Productadd  onClick={cardAdd}>
+
+<Productaddicon>
+
+</Productaddicon>
 
          </Productadd>
           <Productsearch onClick={cardSearch}>
@@ -42,7 +41,7 @@ const cardSearch = e =>{
 }
 
 const Productwrapper = styled.div`
-min-height: 350px;
+min-height: 250px;
 width: 100%;
 max-width: 300px;
 margin: 0 auto;
@@ -51,13 +50,10 @@ display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
-
-
-
 background: ${themes.white};
-
 box-shadow: ${themes.shadow};
 transition: 0.3s ease-in;
+
 :hover a{
     color: ${ themes.jane}
 }
@@ -66,13 +62,13 @@ a{
     color: ${themes.black}
 }
 `
+
 const Productbody = styled.div`
 width: 100%;
 height: 100%;
 display:flex;
 flex-direction: column;
 padding: 0 0 20px 0;
-
 `
 const Productimage = styled.img`
 width: 100%;
@@ -80,13 +76,10 @@ height: 200px;
 border-top-left-radius: 10px;
 border-top-right-radius: 10px;
 `
-const Producttitle = styled(H3)`
-padding: 8px 10px ;
+const Producttitle = styled(product)`
+padding: 8px 10px;
 
 `
-
-
-
 const Productprice = styled(Small)`
 color: ${themes.grey};
 padding: 8px 10px ;

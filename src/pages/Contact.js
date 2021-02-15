@@ -9,6 +9,7 @@ import axios from 'axios'
 import { contact } from '../constants'
 import Message from '../components/Message'
 import Loading from '../components/Loading'
+import { formInput } from '../styles/InputStyles'
 
 const Contact = () => {
 
@@ -122,7 +123,7 @@ Contact us
 <Textarea placeholder="Your Message" value={message} name="message" onChange={onChange} >
 
 </Textarea>
-<Button type="submit" >Send Message {loading && <Loading/>}</Button>
+<Button type="submit" >Send Message {loading &&  <Loading/>}</Button>
 </Form>
 </Contactright>
 
@@ -254,30 +255,8 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 `
-const Input = styled.input`
-height: 40px;
-width: 100%; 
-margin: 8px 0;
-padding: 8px 12px;
-outline: none;
-font-size: 14px;
-    line-height: 1.42857143;
-    color: #333333;
-    vertical-align: middle;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
+const Input = styled(formInput)``
 
-::placeholder{
-        font-size: 15px;
-        color: #cccccc;
-        text-transform: capitalize;
-}
-
-:active,:focus,:hover{
-    border: 2px solid ${themes.jane};
-    outline: none;
-}
-`   
 
 const Textarea = styled.textarea`
 height: 300px;
