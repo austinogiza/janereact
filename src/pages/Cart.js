@@ -1,20 +1,34 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { orderSummaryURL, orderItemDeleteURL, addToCartUrl, orderItemUpdateQuantityURL } from '../constants'
+import { orderSummaryURL, orderItemDeleteURL, addToCartUrl, orderItemUpdateQuantityURL, addCouponURL } from '../constants'
 import { fetchCart } from '../store/actions/cart'
-import { wideButton } from '../styles/Button'
+import { wideButton, couponButton} from '../styles/Button'
 import { themes } from '../styles/ColorStyles'
-import { H2,H3, medium } from '../styles/TextStyles'
+import { H2,H3, medium,NewCaption } from '../styles/TextStyles'
 import { authAxios } from '../utils'
 import {AiOutlinePlus, AiOutlineMinus} from 'react-icons/ai'
 import {FaTrash } from 'react-icons/fa'
 import Pageloading from '../components/Pageloading'
+import { formInput } from '../styles/InputStyles'
+import Loading from '../components/Loading'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = (props) => {
 
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [couponLoading, setCouponLoading] = useState(false)
+  
+  const initial ={
+    code: ''
+  }
+  const [form, setForm]=useState(initial)
+
+  const {
+    code 
+  }=form
 
     const {authenticated, cart} = props;
   
@@ -27,7 +41,7 @@ const Cart = (props) => {
       .then(res=>{
         setData(res.data)
         setLoading(false)
-     
+        props.fetchCart()
       }).catch(err=>{
         setLoading(false)
      
@@ -40,7 +54,7 @@ const Cart = (props) => {
       .get(orderSummaryURL)
       .then(res=>{
         setData(res.data)
- 
+        props.fetchCart()
      
       }).catch(err=>{
    
@@ -53,6 +67,7 @@ const handleRemoveItem = itemID =>{
     .delete(orderItemDeleteURL(itemID))
     .then(res=>{
       handleNewFetchCart()
+      props.fetchCart()
     })
     .catch(res=>{
 
@@ -70,7 +85,12 @@ const handleRemoveOneFromCart = slug =>{
     authAxios
     .post(orderItemUpdateQuantityURL, {slug})
     .then(res => {
+      console.log(res)
       handleNewFetchCart()
+      //update cart count
+      props.fetchCart()
+
+    
     }).catch(err=>{
  
       //setError(err)
@@ -83,19 +103,43 @@ const handleAddToCart = slug =>{
     .then(res => {
   
       handleNewFetchCart()
-    
+      props.fetchCart()
 
     }).catch(err=>{
   
       //setError(err)
     })
    }
+const onChange = e=>{
+  const {name,value}=e.target;
+  setForm({...form, [name]:value})
+}
 
+const onSubmit = e =>{
+     e.preventDefault()
+    setCouponLoading(true)
+
+    authAxios
+    .post(addCouponURL, { code })
+    .then(res=>{
+      toast.success(res.data.message)
+      console.log(res)
+  setCouponLoading(false)
+  setForm(initial)
+
+})
+.catch(err=>{
+  toast.error("Coupon is not valid")
+  setCouponLoading(false)
+
+})
+   }
     return (
       <Cartbody>
+      <ToastContainer/>
 <Container>
 <Title><Titleh1>SHOPPING BAG</Titleh1></Title>
-<Cartrang><Cartrangh3>Your Cart Lovely! ({cart !== null ? cart.order_items.length: 0 } {cart !== null && cart.order_items.length > 1 ? <span>items</span> :<span>item</span>})</Cartrangh3></Cartrang>
+{authenticated && <Cartrang><Cartrangh3>Your Cart Lovely! ({cart !== null ? cart.order_items.length : 0 } {cart !== null && cart.order_items.length > 1 ? <span>items</span> :<span>item</span>})</Cartrangh3></Cartrang>}
 {data && 
 <Section>
 <Table>
@@ -132,8 +176,17 @@ const handleAddToCart = slug =>{
 <EmptyButton to='/shop'>CONTINUE SHOPPING</EmptyButton></Empty> : null}</Tdata>
 </Tempty>
 </Table>
-{data.total ? <Checkout><Subtotal><Item><span>Subtotal</span></Item><Total>&#8358;{data.total}</Total></Subtotal>
-<CheckoutBtn to='/checkout'>Checkout</CheckoutBtn></Checkout>: null}
+{data.total && <Checkout>
+
+<Subtotal><Item><span>Subtotal</span></Item><Total>&#8358;{data.total}</Total></Subtotal>
+{data.coupon && <Subtotalcoupon><CouponItem><span>Discount</span></CouponItem><CouponTotal> -&#8358;{data.coupon.amount}</CouponTotal></Subtotalcoupon>}
+<Couponcover>
+  <Couponform onSubmit={onSubmit}>
+    <Couponinput required onChange={onChange} name="code" value={code} placeholder="Discount code" />
+    <Couponapply type="submit">{ couponLoading ? <Loading/> : "Apply"}</Couponapply>
+  </Couponform>
+</Couponcover>
+<CheckoutBtn to='/checkout'>Checkout</CheckoutBtn></Checkout>}
 
 
 
@@ -220,11 +273,11 @@ padding: 10px 15px;
 `
 
 const CheckoutBtn = styled(wideButton)`
-margin: 16px 0;
+margin: 24px 0;
 `
 const Subtotal = styled.div`
 width: 100%;
-height: 100px;
+min-height: 50px;
 display: flex;
 flex-direction: row;
 justify-content: space-between;
@@ -235,8 +288,41 @@ span{
     font-weight: 600;
 }
 `
+
+const Subtotalcoupon=styled.div`
+width: 100%;
+min-height: 50px;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: space-between;
+`
+const CouponItem = styled(NewCaption)`
+span{
+    font-weight: 600;
+}
+`
+
+const Couponcover = styled.div`
+width: 100%;
+min-height: 50px;
+`
+const Couponform = styled.form`
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+`
+const Couponinput = styled(formInput)`
+`
+const Couponapply = styled(couponButton)`
+margin: 0 0 0 8px;
+`
 const Total = styled(medium)`
   font-weight: 600;
+`
+const CouponTotal = styled(NewCaption)`
+font-weight: 600;
 `
 
 const Empty = styled.div`
@@ -273,8 +359,8 @@ const Th = styled.div`
 padding: 15px;
 text-align: left;
 width: auto;
-font-size: 18px;
-font-weight: 700;
+font-size: 15px;
+font-weight: 500;
 text-transform: uppercase;
 color: ${themes.grey};
 `
@@ -286,7 +372,7 @@ padding: 10px 0;
 background:  ${themes.white};
 border-radius: 4px;
 margin: 8px 0;
-box-shadow: ${themes.shadow};
+/* box-shadow: ${themes.shadow}; */
 `
 const Td = styled.div`
 font-size: 18px;
@@ -339,7 +425,10 @@ margin: 0 8px 0 0;
 const Quant = styled.div`
 width: 100px;
 min-height: 50px;
+margin: 16px 0;
 display: flex;
+justify-content: center;
+align-items: center;
 `
 const Quanminus= styled(AiOutlineMinus)`
 cursor: pointer;

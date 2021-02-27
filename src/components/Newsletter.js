@@ -6,7 +6,8 @@ import { submitButton } from '../styles/Button'
 import { themes } from '../styles/ColorStyles'
 import { H2,Small } from '../styles/TextStyles'
 import Loading from './Loading'
-import Message from './Message'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Newsletter = () => {
 
@@ -16,7 +17,7 @@ const Newsletter = () => {
 
     const [form, setForm] = useState(initial)
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
+
 
 
     const{
@@ -25,19 +26,24 @@ const Newsletter = () => {
     const onSubmit = e =>{
         e.preventDefault();
         setLoading(true);
-        axios.post(newsletter,{
-            email
-        })
-        .then(error=>{
-            console.log(error)
-        setLoading(true)
+        axios
+        .post(newsletter, 
+            {email})
+        .then(res=>{
+            console.log(res.data.message)
+        toast.success(res.data.message, {
+                position: toast.POSITION.TOP_RIGHT
+            })
         setForm(initial)
         setLoading(false)
 
         })
         .catch(error=>{
+
+        toast.error(error.response.data.message, {
+            position: toast.POSITION.TOP_RIGHT
+        })
             setLoading(false)
-            setError(error.message)
 
         })
 
@@ -53,7 +59,7 @@ const Newsletter = () => {
 
        
        <Newslettercover>
-        {error && <Message message={error} />}
+    <ToastContainer/>
 <Newlettertitle><Newstext>Join Our List</Newstext>
 
 <Newstextp>For amazing fashion tips and sales(I know you love sales)</Newstextp></Newlettertitle>
@@ -62,9 +68,9 @@ const Newsletter = () => {
 
 <Newsletterform onSubmit={onSubmit}>
 
-<Newsinput placeholder="Email Address" type="email" value={email} onChange={onchange} name="email">
+<Newsinput placeholder="Email Address" required type="email" value={email} onChange={onchange} name="email">
 
-</Newsinput> <Newsbutton type="submit">Join {loading && <Loading/>}</Newsbutton>
+</Newsinput> <Newsbutton type="submit">{loading ? <Loading/>: "Join" }</Newsbutton>
 </Newsletterform>
 </Newsformcontainer>
 

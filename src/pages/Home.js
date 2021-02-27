@@ -1,21 +1,14 @@
-import React, { useEffect,useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Banner from '../components/Banner'
-import Bonus from '../components/Bonus'
 import ProductCard from '../components/ProductCard'
 import { themes } from '../styles/ColorStyles'
 import {  H1,H2, P } from '../styles/TextStyles'
-
-import 'swiper/swiper.scss';
-import 'swiper/components/navigation/navigation.scss';
-import 'swiper/components/pagination/pagination.scss';
-import 'swiper/components/scrollbar/scrollbar.scss';
-import 'swiper/components/effect-fade/effect-fade.scss';
 import Display from '../components/Display'
 import Newsletter from '../components/Newsletter'
 import { mainButton } from '../styles/Button'
 import axios from 'axios'
-import { addToCartUrl, productDetail, productList } from '../constants'
+import { addToCartUrl,productDetailURL, productList } from '../constants'
 import Pageloading from '../components/Pageloading'
 import Modal from '../components/Modal'
 import { authAxios } from '../utils'
@@ -24,6 +17,8 @@ import { connect } from 'react-redux'
 import { logout } from '../store/actions/auth'
 import ModalLoading from '../components/ModalLoading'
 import ProductModal from '../components/ProductModal'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Home = (props) => {
@@ -54,7 +49,7 @@ useEffect(() => {
  }, [])
 
 
- const handleAddToCart = slug =>{
+ const handleAddToCart = (title, slug)=>{
   if(authenticated){
     setLoading(true)
     authAxios
@@ -63,6 +58,7 @@ useEffect(() => {
         console.log(res.data)
         //updatecart count
         props.fetchCart()
+        toast.success(`${title} was added to cart`)
         setShowModal(true)
         setLoading(false)
     }).catch(err=>{
@@ -74,20 +70,16 @@ useEffect(() => {
   }
  }
 
- const modalRef = useRef()
+
 
  const closeModal = e =>{
     setShowModal(false)
-    if(modalRef.current === e.target){
-        setShowModal(false)
-
-    }
  }
 
 const cardModal = slug =>{
 setModalLoading(true)
 axios
-.get(productDetail(slug))
+.get(productDetailURL(slug))
 .then(res=>{
 
     setModalLoading(false)
@@ -105,6 +97,7 @@ axios
  }
  return (
         <div>
+        <ToastContainer />
 
         <Slider> 
         <Janehero>
@@ -119,9 +112,11 @@ axios
 
        <Display/>
       
-{modalProduct && <ProductModal anime={modalProduct} closePop={closePop} /> }
+{modalProduct && 
+<ProductModal anime={modalProduct} closePop={closePop} /> }
        {modalLoading && <ModalLoading />}
-       {showModal && <Modal link={closeModal} modalClose={closeModal}/> }  
+       {showModal && 
+       <Modal modalClose={closeModal}/> }  
 {error&&<p>{error}</p>}
             <Product>
          
@@ -134,7 +129,7 @@ axios
 
     {data && data.map(item=>{
        return (
-        <ProductCard key={item.id} img={item.image} price={item.price} discount={item.discount_price} title={item.title} cardAdd={()=> handleAddToCart(item.slug)} cardSearch={() =>cardModal(item.slug)} />
+        <ProductCard key={item.id} slug={`/product/${item.slug}`} desc={item.description} loading={loading} img={item.image} price={item.price} discount={item.discount_price} title={item.title} cardAdd={()=> handleAddToCart(item.title,item.slug)} cardSearch={() =>cardModal(item.slug)} />
        )
     })}
  
@@ -148,7 +143,7 @@ axios
             <Banner/>
        
             <Newsletter/>
-            <Bonus/>
+      
         </div>
     )
 }
@@ -192,6 +187,7 @@ align-items: center;
 flex-direction: column;
 position: relative;
 z-index: 1;
+text-align: center;
 `
 const Herotext= styled(P)`
 margin: 8px 0;
@@ -208,7 +204,7 @@ margin: 24px 0;
 const Product = styled.div`
 width: 100%;
 min-height:500px;
-margin: 30px 0;
+margin: 24px 0;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -219,7 +215,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
-max-width:1200px;
+max-width: 1000px;
 margin: 0 auto;
 width:100%;
 height:100%;
@@ -232,7 +228,7 @@ width:100%;
 display: flex;
 align-items: center;
 justify-content: center;
-margin: 40px 0;
+margin: 24px 0;
 padding: 10px 25px;
 span{
     color: ${themes.jane};
@@ -249,13 +245,9 @@ width: 100%;
 display: grid;
 align-items: center;
 justify-content: center;
-grid-template-columns: repeat(4, minmax(10px, 1fr));
-grid-gap: 20px;
-grid-auto-rows: minmax(250px,auto);
-
-@media only screen and (max-width:850px){
-    grid-template-columns: repeat(3,1fr);
-}
+grid-template-columns: repeat(3, minmax(10px, 1fr));
+grid-gap: 24px;
+grid-auto-rows: minmax(300px,auto);
 
 @media only screen and (max-width:650px){
     grid-template-columns: repeat(1,1fr);

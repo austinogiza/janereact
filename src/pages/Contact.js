@@ -7,9 +7,10 @@ import instagram from '../images/instagram.svg'
 import { submitButton } from '../styles/Button'
 import axios from 'axios'
 import { contact } from '../constants'
-import Message from '../components/Message'
 import Loading from '../components/Loading'
-import { formInput } from '../styles/InputStyles'
+import { formInput, MainTextarea } from '../styles/InputStyles'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Contact = () => {
 
@@ -25,7 +26,7 @@ const Contact = () => {
 
     const [form, setForm] = useState(initial);
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
+
     const {
         name,
         email,
@@ -41,7 +42,7 @@ const Contact = () => {
     }
     
 
-    const onSubmit = e =>{
+const onSubmit = e =>{
 e.preventDefault();
 setLoading(true)
 axios.post(contact, {
@@ -49,13 +50,14 @@ axios.post(contact, {
     email,
     subject,
     message
-}).then(error=>{
+}).then(res=>{
+    toast.success("Email Sent Successfully!", {
+        position: toast.POSITION.TOP_RIGHT
+      });
     setForm(initial)
     setLoading(false)
 
-}).catch(error=>{
-
-    setError(error.message)
+}).catch(error=>{  
     setLoading(false)
 
 
@@ -67,7 +69,7 @@ axios.post(contact, {
     return (
      <Contactbody>
 
-
+<ToastContainer/>
 <Contactheader>
 
     <Contactwrite>
@@ -114,13 +116,12 @@ Contact us
 </Contactbox>
 </Contactleft>
 <Contactright>
-{error && <Message message={error}/>}
 <Form onSubmit={onSubmit}>
 
-<Input type="text" placeholder="Your Name" value={name} name="name" onChange={onChange}  ></Input>
-<Input  placeholder="Your Email" type="email" value={email} name="email" onChange={onChange}  ></Input>
-<Input placeholder="Subject" value={subject} name="subject" type="text"  onChange={onChange}  ></Input>
-<Textarea placeholder="Your Message" value={message} name="message" onChange={onChange} >
+<Input type="text" required placeholder="Your Name" value={name} name="name" onChange={onChange}  ></Input>
+<Input required  placeholder="Your Email" type="email" value={email} name="email" onChange={onChange}  ></Input>
+<Input  required placeholder="Subject" value={subject} name="subject" type="text"  onChange={onChange}  ></Input>
+<Textarea required placeholder="Your Message" value={message} name="message" onChange={onChange} >
 
 </Textarea>
 <Button type="submit" >Send Message {loading &&  <Loading/>}</Button>
@@ -258,30 +259,7 @@ align-items: center;
 const Input = styled(formInput)``
 
 
-const Textarea = styled.textarea`
-height: 300px;
-width: 100%; 
-margin: 8px 0;
-resize: none;
-padding: 8px 12px;
-font-size: 14px;
-outline: none;
-    line-height: 1.42857143;
-    color: #333333;
-    vertical-align: middle;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    ::placeholder{
-        font-size: 15px;
-        color: #cccccc;
-        text-transform: capitalize;
-}
-
-:active,:focus,:hover{
-    border: 2px solid ${themes.jane};
-    outline: none;
-}
-`
+const Textarea = styled(MainTextarea)``
 const Button = styled(submitButton)``  
 
 export default Contact;

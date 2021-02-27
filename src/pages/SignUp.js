@@ -7,7 +7,7 @@ import { submitButton } from '../styles/Button'
 import Loading from '../components/Loading'
 import { themes } from '../styles/ColorStyles'
 import { formInput } from '../styles/InputStyles'
-import {H2,P } from '../styles/TextStyles'
+import {H2,P, Small } from '../styles/TextStyles'
 import {authSignup as signup} from '../store/actions/auth'
 import { connect } from 'react-redux'
 const SignUp = (props) => {
@@ -118,20 +118,47 @@ const onSubmit = e=>{
            <Loginh2>Create Account</Loginh2>
        </Logintitle>
        {error && <Formmessage><p>{error}</p></Formmessage>}
-       {formError && <Formmessage><p>{formError}</p></Formmessage>}
+      
        <Loginform onSubmit={onSubmit}>
-       <Logininput name="first_name" value={first_name} onChange={onChange} type="text" placeholder="First Name"/>
-       <Logininput name="last_name" value={last_name} onChange={onChange} type="text" placeholder="Last Name"/>
-       <Logininput name="username" value={username} onChange={onChange} type="text" placeholder="Username"/>
-       <Logininput name="email" value={email} onChange={onChange} type="email" placeholder="Email"/>
-       <Logininput onChange={onChange} type="password" name="password1" value={password1} placeholder="Password"/>
-       <Logininput onChange={onChange} type="password" name="password2" value={password2} placeholder="Confirm Password"/>
+       
+       <Label>
+       <LabelName>
+           First Name
+       </LabelName>
+        <Logininput required name="first_name" value={first_name} onChange={onChange} type="text" placeholder="First Name"/>
+
+        </Label>
+       <Label> 
+       <LabelName>
+           Last Name
+       </LabelName>
+       <Logininput required name="last_name" value={last_name} onChange={onChange} type="text" placeholder="Last Name"/> </Label> 
+       <Label>
+       <LabelName>
+           Username
+       </LabelName>
+        <Logininput required name="username" value={username} onChange={onChange} type="text" placeholder="Username"/> </Label>
+       <Label>
+       <LabelName>
+          Email
+       </LabelName>
+        <Logininput required name="email" value={email} onChange={onChange} type="email" placeholder="Email"/> </Label>
+       <Label>
+       <LabelName>
+           Password
+       </LabelName>
+        <Logininput  required onChange={onChange} type="password" name="password1" value={password1} placeholder="Password"/> </Label>
+        <Label>
+        <LabelName>
+          Confirm Password
+       </LabelName>
+        <Logininput required onChange={onChange} type="password" name="password2" value={password2} placeholder="Confirm Password"/>  </Label>
 
        <Loginbutton> {loading ? <Loading />:  "Create Account"}</Loginbutton>
        </Loginform>
        <Loginsignup>
 
-           <Loginh3> Are you a member? <Link to='/login'> Login</Link></Loginh3>
+           <Loginh3> Already have an account? <Link to='/login'> Login</Link></Loginh3>
        </Loginsignup>
 
        </LoginContainer>
@@ -220,6 +247,18 @@ a{
         color: ${themes.black};
     }
 }
+`
+
+const Label = styled.label`
+width: 100%;
+min-height: 50px;
+transition: 0.4s ease-in;
+display: flex;
+flex-direction: column;
+margin: 8px 0;
+`
+const LabelName = styled(Small)`
+
 `
 
 const mapStateToProps= state =>{

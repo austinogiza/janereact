@@ -47,10 +47,10 @@ position: fixed;
 z-index: 300;
 bottom: 20px;
 right: 30px;
-height: 50px;
-width: 50px;
+height: 40px;
+width: 40px;
 background: ${themes.jane};
-border-radius: 50%;
+
 cursor: pointer;
 box-shadow: ${themes.shadow};
 `

@@ -60,7 +60,7 @@ const Bonusbox = styled.div`
 max-width: 900px;
 min-height:100px;
 width: 100%;
-margin: 0 auto;
+margin: 16px auto;
 border: 1px solid ${themes.black};
 padding: 10px 15px;
 

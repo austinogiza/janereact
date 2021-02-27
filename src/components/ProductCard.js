@@ -1,38 +1,35 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-
+import { productButton } from '../styles/Button'
 import { themes } from '../styles/ColorStyles'
-import {  product, Small } from '../styles/TextStyles'
-import {MdSearch, MdShoppingCart} from 'react-icons/md'
+import { medium, SmallCaption, H2 } from '../styles/TextStyles'
+import {MdShoppingCart} from 'react-icons/md'
+import {BsSearch} from 'react-icons/bs'
 
 
-const ProductCard = ({img,title, price,discount, cardAdd, cardSearch}) => {
+const ProductCard = ({img,title, price,discount, cardAdd, cardSearch, desc, slug}) => {
 
-  
 
     return (
-
-
-<Productwrapper className="productwrapper">
+            <Productwrapper className="productwrapper">
             <Productbody>
-            <Link > <Productimage src={img} /></Link>
-          <Link > <Producttitle>{title}</Producttitle> </Link>
-      
-          <Productprice>&#8358;{price}<strike>&#8358;{discount}</strike></Productprice>
+    <Productsearch onClick={cardSearch}>
+    <Productsearchicon color="#fff"/>
+    <Productimage src={img} />
+    </Productsearch>
+          <Link to={slug}> <Producttitle>{title}</Producttitle> </Link>
          <Productclick>
-         <Productadd  onClick={cardAdd}>
-
-<Productaddicon>
-
-</Productaddicon>
-
-         </Productadd>
-          <Productsearch onClick={cardSearch}>
-<Productsearchicon></Productsearchicon>
-
-          </Productsearch>
-        
+        <Productpricecover>
+        <Productprice><MainPrice>&#8358;{Number(parseFloat(`${price}`).toFixed(3)).toLocaleString()} </MainPrice>
+       <Discount> <strike>&#8358;{Number(parseFloat(`${discount}`).toFixed(3)).toLocaleString()}</strike></Discount></Productprice>
+        </Productpricecover>
+         <Productadd>
+         <Productaddbutton onClick={cardAdd}>
+         <Productaddicon />
+         </Productaddbutton>
+         
+            </Productadd>
          </Productclick>
       </Productbody>
        </Productwrapper>
@@ -41,25 +38,29 @@ const ProductCard = ({img,title, price,discount, cardAdd, cardSearch}) => {
 }
 
 const Productwrapper = styled.div`
-min-height: 250px;
+height: 500px;
 width: 100%;
-max-width: 300px;
+max-width: 350px;
 margin: 0 auto;
-border-radius: 10px;
+border-radius: 5px;
+box-shadow: 0 2 24px rgba(0,0,0,0.05);
 display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
 background: ${themes.white};
-box-shadow: ${themes.shadow};
-transition: 0.3s ease-in;
-
+transition: 0.4s ease-in;
 :hover a{
-    color: ${ themes.jane}
+    color: ${ themes.black};
+    text-decoration: underline;
 }
 
 a{
     color: ${themes.black}
+}
+
+@media only screen and (max-width: 650px){
+    height: 450px;
 }
 `
 
@@ -68,44 +69,69 @@ width: 100%;
 height: 100%;
 display:flex;
 flex-direction: column;
-padding: 0 0 20px 0;
+/* padding: 0 0 20px 0; */
 `
 const Productimage = styled.img`
 width: 100%;
-height: 200px;
+height: 280px;
 border-top-left-radius: 10px;
 border-top-right-radius: 10px;
 `
-const Producttitle = styled(product)`
-padding: 8px 10px;
+const Producttitle = styled(medium)`
+margin: 16px 0;
+min-height: 48px;
+`
+
+
+const Productpricecover = styled.div`
+width: 100%;
+flex: 0 0 50%;
+min-height: 50px;
+display: flex;
+align-items: flex-start;
+justify-content: center;
+flex-direction: column;
 
 `
-const Productprice = styled(Small)`
-color: ${themes.grey};
-padding: 8px 10px ;
-cursor: pointer;
+const MainPrice = styled(H2)`
+width: 100%;
+min-height: 20px;
+color: ${themes.black};
+margin: 4px 0;
+`
+const Discount = styled(SmallCaption)`
 strike{
-    margin: 0 8px;
+    margin: 0;
 }
+color: ${themes.black};
+`
+const Productprice = styled(SmallCaption)`
+color: ${themes.grey};
+margin: 8px;
+min-height: 20px;
+cursor: pointer;
 `
 
 const Productclick = styled.div`
 width: 100%;
-height: 50px;
+height: 56px;
 display: flex;
 flex-direction: row;
-padding: 2px 10px;
+justify-content: center;
+align-items: center;
+padding: 2px 0;
+margin: 16px 0 0 0;
 `
 const Productadd =  styled.div`
 flex: 1;
-background: ${themes.janeBright};
-border-radius: 15px;
+height:100%;
 display: flex;
 justify-content: center;
 align-items: center;
 margin: 0 4px;
 cursor: pointer;
 `
+const Productaddbutton = styled(productButton)``
 
 const Productsearch = styled.div`
 cursor: pointer;
@@ -115,7 +141,25 @@ justify-content: center;
 align-items: center;
 background: ${themes.blueLight};
 margin: 0 4px;
-flex: 0 0 30%;`
+width: 100%;
+height: 280px;
+position: relative;
+transition: 0.4s ease-in;
+::after{
+    opacity: 0;
+    transition: 0.4s ease-in;
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.5);
+}
+:hover::after{
+    opacity: 1;
+}
+`
 
 
 
@@ -124,17 +168,20 @@ const Productaddicon = styled(MdShoppingCart)`
 
 width: 24px;
 height: 24px;
-
 color: ${themes.jane};
 
 `
 
-const Productsearchicon =  styled(MdSearch)`
-
-width: 32px;
-height: 32px;
-color: ${themes.blue};
-
+const Productsearchicon =  styled(BsSearch)`
+width: 40px;
+height: 40px;
+position: absolute;
+opacity: 0;
+z-index: 10;
+transition: 0.4s ease-in;
+${Productsearch}:hover &{
+    opacity: 1; 
+}
 `
 
 export default ProductCard

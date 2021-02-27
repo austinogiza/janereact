@@ -1,41 +1,64 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import Banner from '../components/Banner'
-import Bonus from '../components/Bonus'
 import Loading from '../components/Loading'
 import { submitButton } from '../styles/Button'
 import { themes } from '../styles/ColorStyles'
 import { formInput } from '../styles/InputStyles'
-import {H2,P } from '../styles/TextStyles'
+import {H2,P, Small } from '../styles/TextStyles'
 import {authLogin as login} from '../store/actions/auth'
 import { connect} from 'react-redux'
+import { fetchCart } from '../store/actions/cart'
 
 const Login = (props) => {
 
     const initial = {
         email: "",
-        username:"",
+        password:"",
     }
 
     const [form, setForm] = useState(initial)
     const {loading, error, authenticated} = props;
     const [formError, setFormError] = useState(null)
+    const [emailError, setEmailError] = useState(null)
+const [passwordError, setPasswordError] = useState(null)
+const [border, setBorder]=useState(false)
+const [emailBorder, setEmailBorder]=useState(false)
+const [passwordBorder, setPasswordBorder]=useState(false)
 
-   
+    useEffect(() => {
+  
+  return () => {
+      setFormError(null)
+  }
+}, [])
     const {
         email,
-    password
+        password
     } = form;
 
     if(authenticated){
         return <Redirect to='/'/>
+     
+        
+    }
+    if(authenticated){
+        props.fetchCart()
+        
     }
 
+
+   
     const onChange = e=>{
         const {name, value} = e.target;
         setForm({...form, [name]: value});
         setFormError(null)
+        setEmailError(null)
+        setPasswordError(null)
+        setBorder(false)
+setEmailBorder(false)
+setPasswordBorder(false)
     
 
     }
@@ -46,18 +69,23 @@ const Login = (props) => {
         if( email !== "" && password !== ""){
             setFormError(null)
             props.login(email,password);
+          
 
         }
         else{
             if(email === "" && password === ""){
                 setFormError("Please enter all fields")
-            }
-            else if(email === ""){
-                setFormError("Please enter your email address")
+                setBorder(true)
             }
             else if(password === ""){
-                setFormError("Please enter your password")
+                setPasswordError("Please enter your password")
+                setPasswordBorder(true)
             }
+            else if(email ===""){
+                setEmailError("Please enter your email address")
+                setEmailBorder(true)
+            }
+          
 
 
         }
@@ -75,10 +103,21 @@ const Login = (props) => {
        </Logintitle>
        <Loginform onSubmit={onSubmit}>
        {error && <Formmessage><p>{error}</p></Formmessage>}
+    <Label>
+    <LabelName>Email</LabelName>
+      <Logininput type="email" className={(border && 'form-error') || (emailBorder && 'form-error')} placeholder="Your Email" onChange={onChange} name="email" value={email} />
+  
+       {emailError && <Formmessage><p>{emailError}</p></Formmessage>}
        {formError && <Formmessage><p>{formError}</p></Formmessage>}
-       <Logininput type="email" placeholder="Your Email" onChange={onChange} name="email" value={email} />
-       <Logininput type="password" placeholder="Password" onChange={onChange} name="password" value={password} />
-       <Forgot><Link to='/'>Forgot Password?</Link></Forgot>
+       </Label>
+       <Label>
+       <LabelName>Password</LabelName>
+       <Logininput className={(border && 'form-error') || (passwordBorder && 'form-error')} type="password" placeholder="Enter Password" onChange={onChange} name="password" 
+       value={password} />
+       {passwordError && <Formmessage><p>{passwordError}</p></Formmessage>}
+       {formError && <Formmessage><p>{formError}</p></Formmessage>}
+       </Label>
+       <Forgot><Link to='/account/login/reset'>Forgot Password?</Link></Forgot>
 
 
        <Loginbutton> {loading ? <Loading /> : "Login"}</Loginbutton>
@@ -88,12 +127,11 @@ const Login = (props) => {
        </Loginform>
        <Loginsignup>
 
-           <Loginh3> Not a member? <Link to='/signup'>Sign Up</Link></Loginh3>
+           <Loginh3> Don't have an account? <Link to='/signup'>Sign Up</Link></Loginh3>
        </Loginsignup>
 
        </LoginContainer>
        <Banner/>
-       <Bonus/>
 
        </Loginpage>
     )
@@ -149,6 +187,17 @@ a{
     }
 }
 `
+const Label = styled.label`
+width: 100%;
+min-height: 50px;
+transition: 0.4s ease-in;
+display: flex;
+flex-direction: column;
+margin: 8px 0;
+`
+const LabelName = styled(Small)`
+
+`
 
 const Formmessage = styled.div`
 display: flex;
@@ -157,11 +206,11 @@ justify-content: center;
 align-items: center;
 width: 100%;
 max-width: 400px;
-background: ${themes.jane};
-height: 54px;
+transition: 0.4s ease-in;
+min-height: 10px;
 text-align: center;
 margin: 24px auto;
-color:  ${themes.white};
+color:  ${themes.red};
 `
 const Logininput = styled(formInput)`
 
@@ -203,7 +252,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>{
     return{
-        login: (email,password) => dispatch(login(email,password))
+        login: (email,password) => dispatch(login(email,password)),
+        fetchCart: () => dispatch(fetchCart())
     };
 };
 

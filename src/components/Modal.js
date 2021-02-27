@@ -4,15 +4,14 @@ import { ghostButton, mainButton } from '../styles/Button'
 import { themes } from '../styles/ColorStyles'
 import { MdClose} from 'react-icons/md'
 
-const Modal = (props) => {
-      const modalRef = useRef()
+const Modal = ({modalClose}) => {
+    
 
-  const {link, modalClose} = props
   return (
-<Background ref={modalRef}>
+<Background onClick={modalClose}>
 <Container>
 <Closeicon onClick={modalClose}/>
-<Continue onClick={link}>
+<Continue onClick={modalClose}>
   Continue Shopping
 </Continue>
 <Cart to='/cart'>
@@ -32,6 +31,12 @@ display: flex;
 z-index: 20;
 justify-content: center;
 align-items: center;
+top: 50%;
+left: 50%;
+z-index: 100;
+transform: translate(-50%,-50%);
+padding: 10px 15px;
+transition: 0.3s all ease-in;
 
 `
 const Closeicon = styled(MdClose)`
@@ -65,9 +70,9 @@ border-radius: 5px;
 }
 `
 const Continue = styled(ghostButton)`
-margin: 10px ;
+margin: 10px;
 `
 const Cart = styled(mainButton)`
-margin: 10px ;
+margin: 10px;
 `
 export default Modal

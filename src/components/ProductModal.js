@@ -42,7 +42,7 @@ align-items: center;
 justify-content: center;
 padding: 10px 15px;
 transition: 0.3s all ease-in;
-
+background: rgba(0,0,0,0.4);
 `
 
 const Container = styled.div`

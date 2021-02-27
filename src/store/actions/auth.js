@@ -2,7 +2,6 @@ import axios from 'axios'
 import { loginURL,signURL } from '../../constants'
 import * as actionTypes from './actionTypes'
 
-
 export const authStart = () =>{
     return {
         type: actionTypes.AUTH_START
@@ -13,8 +12,8 @@ export const authSuccess = token =>{
     return {
         type: actionTypes.AUTH_SUCCESS,
         token: token
-
     }
+
 }
 
 export const authFail = error =>{
@@ -27,9 +26,10 @@ export const authFail = error =>{
 
 export const logout = () =>{
 
-    localStorage.removeItem('token');
+    localStorage.removeItem('janesFashionToken');
     localStorage.removeItem('_hjid');
-    localStorage.removeItem('expirationDate');
+    localStorage.removeItem('janesFashionExpirationDate');
+
     return{
         type: actionTypes.AUTH_LOGOUT
     }
@@ -55,10 +55,11 @@ export const authLogin = (email, password) =>{
     
             const expirationDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000); 
      
-            localStorage.setItem('token', token);
-            localStorage.setItem("expirationDate", expirationDate);
+            localStorage.setItem('janesFashionToken', token);
+            localStorage.setItem("janesFashionExpirationDate", expirationDate);
             dispatch(authSuccess(token));
             dispatch(checkAuthTimeOut(3600*1000));
+        
         }).catch(err=>{
             dispatch(authFail(err.response.data.non_field_errors))
          
@@ -81,8 +82,8 @@ export const authSignup = (first_name, last_name, username, email, password1, pa
         }).then(res=>{
             const token = res.data.key;
             const expirationDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000); 
-            localStorage.setItem('token', token);
-            localStorage.setItem("expirationDate", expirationDate);
+            localStorage.setItem('janesFashionToken', token);
+            localStorage.setItem("janesFashionExpirationDate", expirationDate);
             dispatch(authSuccess(token));
             dispatch(checkAuthTimeOut(3600));
          
@@ -97,12 +98,12 @@ export const authSignup = (first_name, last_name, username, email, password1, pa
 
 export const authCheckState = ()=>{
     return dispatch=>{
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('janesFashionToken');
         if (token === undefined){
             dispatch(logout());
         }
         else{
-            const expirationDate = new Date(localStorage.getItem("expirationDate"));
+            const expirationDate = new Date(localStorage.getItem("janesFashionExpirationDate"));
 if (expirationDate <= new Date()){
     dispatch(logout());
 }

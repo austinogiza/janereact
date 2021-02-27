@@ -3,27 +3,43 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { addressListUrl, countriesListURL, orderSummaryURL } from '../constants'
-
 import {fetchCart } from '../store/actions/cart'
-import { wideButton } from '../styles/Button'
+import { submitButton } from '../styles/Button'
 import { themes } from '../styles/ColorStyles'
-import { formInput } from '../styles/InputStyles'
-import { H2, medium } from '../styles/TextStyles'
+import { formInput,formSelect } from '../styles/InputStyles'
+import { H2, medium, NewCaption, SmallCaption } from '../styles/TextStyles'
 import { authAxios } from '../utils'
-
+import Loading from '../components/Loading'
 
 const Cart = (props) => {
 
+  const initial ={
+    phone:"",
+    country: "",
+    state:"",
+    zip:"",
+  }
+    
+    const { authenticated } = props;
     const [data, setData] = useState(null)
     const [countries, setCountries] = useState([])
+    const [country, setCountry] = useState(null)
+    const [countrySelected, setCountrySelected] = useState(false)
+    const [form, setForm] = useState(initial)
+    const [formatCountries, setFormatCountries] = useState([])
     const [addresses, setAddresses] = useState([])
     const [loading, setLoading] = useState(false)
+    const [checkoutLoading, setCheckoutLoading] = useState(false)
     const [shippingFee, setShippingFee] = useState("Calculating...")
-  
+  const {
+    state,
+    phone,
+  zip
+  } =form
 
     useEffect(() => {
 
-const { authenticated} = props;
+
 handleFetchCart()
 handleFetchCountries()
 handleFetchAddress()
@@ -31,7 +47,6 @@ handleFetchAddress()
 if(!authenticated){
   return <Redirect to='/login' />
 }
-console.log(countries)
 
 
 }, [])
@@ -67,13 +82,7 @@ const handleFetchCountries = () =>{
     }
 
 const handleFormatCountries = countries =>{
-  const keys = Object.keys(countries);
-  return keys.map(k=>{
-        return{
-  key: k,
-  text: countries[k],
-  value:k
-}})
+ setFormatCountries(Object.values(countries))
 }
 
 
@@ -96,10 +105,38 @@ e.preventDefault()
 }
 
 
- 
+const handleFetchState = e =>{
+  setCountry(e.target.value)
+  console.log(country)
+if(country  === "Nigeria"){
+   setCountrySelected(true)
+}
+else{
+  setCountrySelected(false)
+}
+
+}
+
+const onSubmit = e =>{
+  e.preventDefault()
+  setCheckoutLoading(true)
+  authAxios
+  .post()
+  .then(res=>{
+    setCheckoutLoading(false)
+  })
+  .catch(err=>{
+    setCheckoutLoading(false)
+  })
+  
+}
+console.log(country)
+const onChange = e=>{
+  const {name,value} =  e.target;
+  setForm({...form, [name]: value })
 
 
-
+}
   
     return (
       <Cartbody>
@@ -109,39 +146,74 @@ e.preventDefault()
 <Checkout>
 <CheckoutForm>
 
-<DefaultAddress>
-<Defaulttitle>
-  <Defaulth3>Default Shipping Address</Defaulth3>
-</Defaulttitle>
-  <AddressName>
-
-  </AddressName>
-  <Addresstitle>
-
-  </Addresstitle>
-</DefaultAddress>
-
-<UseDefault>
+{addresses.length > 0 && <UseDefault>
   <Usecheck /> <UseText>Use Default Address</UseText>
   <AddIcon /> <AddText>Add New Address</AddText>
-</UseDefault>
+</UseDefault>}
 
-<Form>
+
+<Form onSubmit={onSubmit}>
+  <Checkouttworow>
+   <Checkinputcover>
+     <Label>
+       <Formname>Phone Number</Formname>
+       <CheckoutInput required type="text" placeholder="Phone Number" />
+     </Label>
+   </Checkinputcover>
+   <Checkinputcover>
+     <Label>
+       <Formname>Zip/Portal Code</Formname>
+       <CheckoutInput type="text" placeholder="Zip Code" />
+     </Label>
+   </Checkinputcover>
+  </Checkouttworow>
+  <Checkouttworow>
+   <Checkinputcover>
+     <Label>
+       <Formname>Country</Formname>
+       <Checkselect name="country" value={country} onChange={handleFetchState}>
+  {formatCountries.map(country => {
+    return( 
+      <Checkoption key={country} value={country}>{country}</Checkoption>)
+  })}
+     
+        
+      </Checkselect>
+     </Label>
+   </Checkinputcover>
+
+   <Checkinputcover>
+   {countrySelected?   <Label>
+       <Formname>State</Formname>
+      <Checkselect>
+        <Checkoption>Edo State</Checkoption>
+      </Checkselect>
+     </Label>:   <Label>
+       <Formname>State</Formname>
+       <CheckoutInput type="text" value={state} name="state" placeholder="State" />
+     </Label>}
+   
+   </Checkinputcover>
+  </Checkouttworow>
   <Checkoutrow>
-    <CheckoutInput />
+  
+     <Label>
+       <Formname>Address</Formname>
+       <CheckoutInput type="text" placeholder="Address" />
+     </Label>
+
+
   </Checkoutrow>
   <Checkoutrow>
-    <CheckoutInput />
-  </Checkoutrow>
-  <Checkoutrow>
-    <CheckoutInput />
-  </Checkoutrow>
-  <Checkoutrow>
-    <CheckoutInput />
-  </Checkoutrow>
-  <Checkoutrow>
-    <CheckoutInput />
-  </Checkoutrow>
+<DefaultAddress>
+<Defaulth3>
+<DefaultInput type="checkbox" /> <AddressName>Set As Default Shipping Address</AddressName></Defaulth3>
+</DefaultAddress>
+  
+<Checkbutton>{checkoutLoading ? <Loading/>: "Checkout"}</Checkbutton>
+
+
+</Checkoutrow>
 </Form>
 
 </CheckoutForm>
@@ -170,10 +242,10 @@ e.preventDefault()
  
 </Totalorder>
 <Ordertotal>
-  <Subtotal><span>Subtotal</span> <p>&#8358;{data.total}</p></Subtotal>
+  <Subtotal><span>Subtotal</span> <p>&#8358;{Number(parseFloat(`${data.total}`).toFixed(3)).toLocaleString()} </p></Subtotal>
   <Subtotal><span>Delivery fee</span> <p>&#8358; {shippingFee}</p></Subtotal>
 </Ordertotal>
-<CartTotal><span>Total</span> <p>&#8358;{data.get_order_total}</p></CartTotal>
+<CartTotal><span>Total</span> <p>&#8358;{Number(parseFloat(`${data.get_order_total}`).toFixed(3)).toLocaleString()}</p></CartTotal>
 
 </Total>
 </div>
@@ -242,7 +314,7 @@ const Titleh1 =styled(H2)``
 const CheckoutForm =styled.div`
 display: flex;
 flex-direction: column;
-max-width: 500px;
+max-width: 600px;
 margin: 16px auto;
 width: 100%;
 min-height: 300px;
@@ -286,7 +358,7 @@ display: flex;
 flex-direction: row;
 border-radius: 4px;
 padding: 10px;
-margin: 8px 0 0 0;
+margin: 0;
 `
 
 const Cardtitle = styled.div`
@@ -295,26 +367,28 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: flex-start;
+margin: 0;
 `
 const Ordertitle = styled.h3`
 font-size: 16px;
-    font-weight: 500;
+    font-weight: 800;
     line-height: 1.25;
+    margin: 0;
 @media only screen and (max-width: 650px){
   font-size: 14px;
 }
 `
 const Orderprice = styled.p`
 font-size: 13px;
-    font-weight: 400;
-    line-height: 1.25;
-margin: 6px 0 0 0;
+font-weight: 400;
+line-height: 1.25;
+margin: 8px 0 0 0;
 `
 const Orderquantity = styled.p`
 font-size: 13px;
     font-weight: 400;
     line-height: 1.25;
-margin: 6px 0 0 0;
+margin: 8px 0 0 0;
 `
 const Ordertotal = styled.div`
 display: flex;
@@ -355,27 +429,67 @@ p{
 }
 `
 
-const DefaultAddress = styled.div``
-const Defaulttitle = styled.div``
-const Defaulth3 = styled.div``
-const AddressName = styled.div``
-const Addresstitle = styled.div``
+const DefaultAddress = styled.div`
+width: 100%;
+min-height: 20px;
+
+margin: 16px 0;
+`
+const DefaultInput = styled.input`
+width: 16px;
+height: 16px;
+border-radius: 5px;
+`
+const Defaulth3 = styled.label`
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+width: 100%;
+`
+const AddressName = styled(NewCaption)`
+margin: 0 0 0 8px;
+`
+
 const UseDefault = styled.div``
 const Usecheck = styled.div``
 const UseText = styled.div``
 const AddIcon = styled.div``
 const AddText = styled.div``
 
-const Form = styled.div`
+const Form = styled.form`
 min-height: 400px;
 width: 100%;
-padding: 10px 25px;
+padding: 10px 20px;
 display: flex;
 flex-direction:column;
+max-width: 700px;
+margin: 16px 0;
 `
 const Checkoutrow = styled.div`
 min-height: 50px;
 width: 100%;
+margin: 0;
+`
+
+const Checkbutton = styled(submitButton)`
+margin: 8px 0;
+`
+const Checkouttworow  = styled.div`
+margin: 8px 0;
+min-height: 50px;
+width: 100%;
+display: grid;
+grid-template-columns: repeat(2,1fr);
+grid-gap: 24px;
+
+`
+const Checkinputcover = styled.div``
+const Label = styled.label``
+const Formname = styled(SmallCaption)``
+
+const Checkselect = styled(formSelect)`
+`
+const Checkoption = styled.option`
 `
 const CheckoutInput = styled(formInput)``
 

@@ -10,9 +10,9 @@ import { fetchCart } from '../store/actions/cart'
 
 
 const Navbar = (props) => {
-
   const [menu, setMenu] = useState(false)
-  const { authenticated, cart } = props;
+  const [handleLogout, setHandleLogout]= useState(false)
+  const { authenticated, cart, emptyCart} = props;
 
   const toggle = e => {
     setMenu(!menu)
@@ -22,8 +22,13 @@ const Navbar = (props) => {
 
   useEffect(() => {
   props.fetchCart()
-
 },[])
+
+
+if(handleLogout){
+  props.logout()
+  props.fetchCart()
+}
 
   return (
     <Nav>
@@ -51,15 +56,18 @@ const Navbar = (props) => {
           </Navlogo>
 
           <Cart>
-          { authenticated ? <Cartlogout onClick={()=> props.logout()}>
-<Logouticon/></Cartlogout> : <Cartsignin> <Link to='/login'><Signinicon /></Link>
+          { authenticated ? <><Cartlogout onClick={ () => setHandleLogout(true)}>
+<Logouticon/></Cartlogout>  <Cartsignin> <Link to='/account'><Signinicon /></Link></Cartsignin> </>: <Cartsignin> <Link to='/login'><Signinicon /></Link>
 
 
             </Cartsignin> }
             <Carticon>
-              <Link to='/cart'>  <Carticonsmall /> {cart !== null ? cart.order_items.length : 0 }</Link>
+              {authenticated ?<> {cart !== null && <Link to='/cart'> <Carticonsmall /> {cart !== null && cart.order_items.length }  </Link>  } {emptyCart && <> <Link to='/cart'> <Carticonsmall /> 0 </Link> </>}</>: <Link to='/login'>  <Carticonsmall />0</Link>}
             </Carticon>
            
+            
+
+              
 
           </Cart>
         </Navtop>
@@ -422,7 +430,8 @@ a{
 const mapStateToProps = state =>{
   return {
     authenticated: state.auth.token !== null,
-    cart: state.cart.shoppingCart
+    cart: state.cart.shoppingCart,
+    emptyCart: state.cart.shoppingCart === null
   }
 }
 

@@ -23,6 +23,9 @@ import { connect} from 'react-redux'
 import * as actions from './store/actions/auth'
 import NotFound from './pages/NotFound'
 import { GlobalStyles } from './styles/GlobalStyles'
+import ResetPassword from './pages/ResetPassword'
+import ChangePassword from './pages/ChangePassword'
+
 
 
 
@@ -33,8 +36,8 @@ const App = (props) => {
   const history = createBrowserHistory()
   
   useEffect(() => {
-
     props.onTryAutoSignup();
+
 
   })
   return (
@@ -59,6 +62,9 @@ const App = (props) => {
 <Route exact path='/returns' component={Returns}/>
 <Route exact path='/login' component={Login}/>
 <Route exact path='/signup' component={SignUp}/>
+<Route exact path='/account/login/reset' component={ResetPassword}/>
+<Route exact path='/account/reset/:uuid/:token' component={ChangePassword}/>
+
 <Route component={NotFound}/>
 </Switch>
 <Top/>
