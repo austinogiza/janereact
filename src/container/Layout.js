@@ -9,8 +9,6 @@ const Layout = ({children}) => {
      <React.Fragment>
      <Navbar/>
      <ShopBanner/>
-
-
      {children}
     <Bonus/>
          <Footer/>

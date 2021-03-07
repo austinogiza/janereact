@@ -1,140 +1,246 @@
 import React, { useState,useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
-import { addressListUrl, countriesListURL, orderSummaryURL } from '../constants'
+import { addressListUrl, orderSummaryURL,addressCreateURL,defaultAddressListUrl,getShippingFeeURL,addShippingFeeURL, getDefaultShippingFeeURL, addDefaultShippingFeeURL,addressDefaultCreateURL } from '../constants'
 import {fetchCart } from '../store/actions/cart'
-import { submitButton } from '../styles/Button'
+import { submitButton, wideButton } from '../styles/Button'
 import { themes } from '../styles/ColorStyles'
-import { formInput,formSelect } from '../styles/InputStyles'
-import { H2, medium, NewCaption, SmallCaption } from '../styles/TextStyles'
+import { formInput } from '../styles/InputStyles'
+import { H2, medium, NewCaption, SmallCaption,P } from '../styles/TextStyles'
 import { authAxios } from '../utils'
 import Loading from '../components/Loading'
+import PageSkeleton from '../components/PageSkeleton'
+import Skeleton from '../components/Skeleton'
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import { Redirect } from 'react-router-dom'
 
 const Cart = (props) => {
 
   const initial ={
     phone:"",
     country: "",
-    state:"",
     zip:"",
+    defaultChecked: "",
+    address: "",
+    checked: ""
+
   }
     
     const { authenticated } = props;
     const [data, setData] = useState(null)
-    const [countries, setCountries] = useState([])
-    const [country, setCountry] = useState(null)
-    const [countrySelected, setCountrySelected] = useState(false)
     const [form, setForm] = useState(initial)
-    const [formatCountries, setFormatCountries] = useState([])
+    const [country, setCountry] = useState(null)
+    const [state, setState] = useState(null)
+    const [redirect,setRedirect] = useState(false)
+ const [region]  = useState(null)
+    const [shipState,setShipState ] = useState(null)
     const [addresses, setAddresses] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [defaultAddresses, setDefaultAddresses] = useState([])
+    const [pageLoading, setPageLoading] = useState(false)
+    const [defaultChecked, setCheckedDefault]= useState(false)
+    const [checked, setChecked]= useState(false)
     const [checkoutLoading, setCheckoutLoading] = useState(false)
-    const [shippingFee, setShippingFee] = useState("Calculating...")
+    const [shippingFee, setShippingFee] = useState(null)
   const {
-    state,
+
     phone,
-  zip
+  zip,
+  address
   } =form
 
-    useEffect(() => {
+
+  const handleFetchCart = () =>{
+
+    authAxios
+    .get(orderSummaryURL)
+    .then(res=>{
+      setData(res.data)
+      
+     
+   
+    }).catch(err=>{
+ 
+
+    })
+  }
 
 
+  const handleFetchCartDou = () =>{
+    setPageLoading(true)
+    authAxios
+    .get(orderSummaryURL)
+    .then(res=>{
+      setPageLoading(false)
+   
+    }).catch(err=>{
+      setPageLoading(false)
+     
+    })
+  }
+
+  const handleDefaultFetchAddress = () =>{
+    authAxios.get(defaultAddressListUrl)
+    .then(res=>{
+      setDefaultAddresses(res.data)
+
+    })
+    .catch(err=>{
+
+    })
+  }
+
+
+
+useEffect(() => {
+  handleFetchCartDou()
 handleFetchCart()
-handleFetchCountries()
 handleFetchAddress()
 
-if(!authenticated){
-  return <Redirect to='/login' />
+handleDefaultFetchAddress()
+
+return ()=>{
+  props.fetchCart()
 }
-
-
 }, [])
 
-    const handleFetchCart = () =>{
-   
-      authAxios
-      .get(orderSummaryURL)
-      .then(res=>{
-        setData(res.data)
-   
-     
-      }).catch(err=>{
-      
-     
-      })
-    }
 
-    
-
-const handleFetchCountries = () =>{
-      
-      authAxios
-      .get(countriesListURL)
-      .then(res=>{
-        setCountries(handleFormatCountries(res.data))
-      
-  
-      })
-      .catch(err=>{
-
-      })
-    }
-
-const handleFormatCountries = countries =>{
- setFormatCountries(Object.values(countries))
-}
 
 
 const handleFetchAddress = () =>{
-    setLoading(true)
       authAxios.get(addressListUrl)
       .then(res=>{
         setAddresses(res.data)
-        setLoading(false)
-  
+
       })
       .catch(err=>{
 
       })
     }
 
-    const handleCreateAddress = e =>{
-e.preventDefault()
+
+    
+  if(redirect){
+    return <Redirect to='/payment'/>
+  }
+
+const setSelectRegion =region=>{
+      handleShippingFee(region)
+    
+  
+}
+
+const handleShippingFee =region=>{
+
+
+  setState(region)
+
+  authAxios
+  .get(getShippingFeeURL, {params: {region, country}})
+  .then(res=>{
+
+    setShippingFee(res.data.shipping_fee)
+    setShipState(res.data.state)
+    handleShippingFeeFinal(res.data.shipping_fee)
+
+
+  })
+  .catch(err=>{
+
+  })
 
 }
 
+const handleDefaultShippingFeeFinal=shippingFee=>{
+  authAxios
+  .post(addDefaultShippingFeeURL, {shippingFee})
+  .then(res=>{
+    handleFetchCart()
+  
+  })
+  .catch(err=>{
+  
+  })
+  }
 
-const handleFetchState = e =>{
-  setCountry(e.target.value)
-  console.log(country)
-if(country  === "Nigeria"){
-   setCountrySelected(true)
-}
-else{
-  setCountrySelected(false)
+  const handleChecked=()=>{
+    
+  const defaultState = defaultAddresses[0].state;
+  const defaultCountry = defaultAddresses[0].country;
+
+  authAxios
+  .get(getDefaultShippingFeeURL, {params: {defaultState, defaultCountry}})
+  .then(res=>{
+    setShippingFee(res.data.shipping_fee)
+    setShipState(res.data.state)
+    handleDefaultShippingFeeFinal(res.data.shipping_fee)
+
+  })
+  .catch(err=>{
+
+  })
+
+
+  }
+const selectCountry = val =>{
+  setCountry(val)
 }
 
+// const  = val=>{
+//   setRegion(val)
+//   handleShippingFee(region)
+// }
+
+
+const handleShippingFeeFinal=shippingFee=>{
+authAxios
+.post(addShippingFeeURL, {shippingFee})
+.then(res=>{
+  handleFetchCart()
+
+})
+.catch(err=>{
+
+})
 }
+
 
 const onSubmit = e =>{
   e.preventDefault()
+
   setCheckoutLoading(true)
   authAxios
-  .post()
+  .post(addressCreateURL, {phone,country,shipState,address, zip, defaultChecked})
   .then(res=>{
+    setRedirect(true)
     setCheckoutLoading(false)
+    
   })
   .catch(err=>{
     setCheckoutLoading(false)
+    setRedirect(false)
   })
   
 }
-console.log(country)
+
+
+const handleAddDefault =()=>{
+  setCheckoutLoading(true)
+  const addDefaultAddress = true;
+  authAxios
+  .post(addressDefaultCreateURL,{addDefaultAddress})
+  .then(res=>{
+    setRedirect(true)
+    setCheckoutLoading(false)
+    
+  })
+  .catch(err=>{
+    setCheckoutLoading(false)
+    setRedirect(false)
+  })
+}
 const onChange = e=>{
   const {name,value} =  e.target;
   setForm({...form, [name]: value })
-
 
 }
   
@@ -142,28 +248,63 @@ const onChange = e=>{
       <Cartbody>
 <Container>
 <Title><Titleh1>CONTACT INFORMATION</Titleh1></Title>
-<PageTitle><Pageh1>Checkout</Pageh1></PageTitle>
+{ !pageLoading && authenticated && <>
+  <PageTitle><Pageh1>Checkout</Pageh1></PageTitle>
+</>}
+
 <Checkout>
+
+
+{pageLoading ? <PageSkeleton/> : <>
+
+{authenticated && 
+<>
 <CheckoutForm>
 
 {addresses.length > 0 && <UseDefault>
-  <Usecheck /> <UseText>Use Default Address</UseText>
-  <AddIcon /> <AddText>Add New Address</AddText>
+  <AddText> <Usecheck type="checkbox" onClick={handleChecked} onChange={e=> setChecked(e.currentTarget.checked)} value={checked} name="checked" /> <UseText >Use Your Default Address</UseText></AddText>
 </UseDefault>}
 
+{checked ? <>
+<Checksection>
+<Checkedaddress>Your default address is:</Checkedaddress>
+
+{defaultAddresses && <>
+<Defaultrow>
+<DefaultLabel>Address:</DefaultLabel> <DefaultAddressDetails>{defaultAddresses[0].address}</DefaultAddressDetails>
+</Defaultrow>
+
+<Defaultrow><DefaultLabel>Phone No:</DefaultLabel><DefaultAddressDetails>{defaultAddresses[0].phone}</DefaultAddressDetails></Defaultrow>
+<Defaultrow><DefaultLabel>State:</DefaultLabel> <DefaultAddressDetails>{defaultAddresses[0].state}</DefaultAddressDetails></Defaultrow>
+<Defaultrow><DefaultLabel>Country:</DefaultLabel> <DefaultAddressDetails>{defaultAddresses[0].country}</DefaultAddressDetails></Defaultrow>
+<Defaultrow>{defaultAddresses[0].zip && 
+<>
+<DefaultLabel>Zip:</DefaultLabel> <DefaultAddressDetails>{defaultAddresses[0].zip }</DefaultAddressDetails>
+
+</>
+}
+</Defaultrow>
+</>}
+
+
+<Checkbutton onClick={handleAddDefault}>{checkoutLoading ? <Loading/>: "Proceed"}</Checkbutton>
+</Checksection>
+</>: 
+
+<>
 
 <Form onSubmit={onSubmit}>
   <Checkouttworow>
    <Checkinputcover>
      <Label>
        <Formname>Phone Number</Formname>
-       <CheckoutInput required type="text" placeholder="Phone Number" />
+       <CheckoutInput value={phone} name="phone" onChange={onChange} required type="text" placeholder="Phone Number" />
      </Label>
    </Checkinputcover>
    <Checkinputcover>
      <Label>
-       <Formname>Zip/Portal Code</Formname>
-       <CheckoutInput type="text" placeholder="Zip Code" />
+       <Formname>Zip/Portal Code (Optional)</Formname>
+       <CheckoutInput  value={zip} name="zip" onChange={onChange}  type="text" placeholder="Zip Code" />
      </Label>
    </Checkinputcover>
   </Checkouttworow>
@@ -171,35 +312,26 @@ const onChange = e=>{
    <Checkinputcover>
      <Label>
        <Formname>Country</Formname>
-       <Checkselect name="country" value={country} onChange={handleFetchState}>
-  {formatCountries.map(country => {
-    return( 
-      <Checkoption key={country} value={country}>{country}</Checkoption>)
-  })}
-     
-        
-      </Checkselect>
+
+           <CheckCountryselect  value={country}
+          onChange={(val) => selectCountry(val)}/>
+
      </Label>
    </Checkinputcover>
 
    <Checkinputcover>
-   {countrySelected?   <Label>
+   <Label>
        <Formname>State</Formname>
-      <Checkselect>
-        <Checkoption>Edo State</Checkoption>
-      </Checkselect>
-     </Label>:   <Label>
-       <Formname>State</Formname>
-       <CheckoutInput type="text" value={state} name="state" placeholder="State" />
-     </Label>}
-   
+   <Checkselect blankOptionLabel="Select State"  country={country} name="region" value={region}
+          onChange={(val) => setSelectRegion(val)} />
+     </Label>
    </Checkinputcover>
   </Checkouttworow>
   <Checkoutrow>
   
      <Label>
        <Formname>Address</Formname>
-       <CheckoutInput type="text" placeholder="Address" />
+       <CheckoutInput value={address} name="address" onChange={onChange}  type="text" placeholder="Address" />
      </Label>
 
 
@@ -207,7 +339,7 @@ const onChange = e=>{
   <Checkoutrow>
 <DefaultAddress>
 <Defaulth3>
-<DefaultInput type="checkbox" /> <AddressName>Set As Default Shipping Address</AddressName></Defaulth3>
+<DefaultInput type="checkbox" checked={defaultChecked} value={defaultChecked} name="defaultChecked" onChange={e=>setCheckedDefault(e.currentTarget.checked)}/> <AddressName>Set As Default Shipping Address</AddressName></Defaulth3>
 </DefaultAddress>
   
 <Checkbutton>{checkoutLoading ? <Loading/>: "Checkout"}</Checkbutton>
@@ -216,9 +348,21 @@ const onChange = e=>{
 </Checkoutrow>
 </Form>
 
+</>}
+
 </CheckoutForm>
-{data && <div>
+
+</>}
+
+</>}
+
+  
+{pageLoading ? <Skeleton/>:
+
+  <>
+{authenticated && data && <div>
 <Total>
+
 <TotalHead>
   <Totalh1>ORDER SUMMARY</Totalh1>
 </TotalHead>
@@ -232,7 +376,7 @@ const onChange = e=>{
 
  <Cardtitle>
    <Ordertitle>{order_items.item}</Ordertitle>
-   <Orderprice>&#8358; {order_items.item_obj.price}</Orderprice>
+   <Orderprice>&#8358; {Number(parseFloat(`${order_items.item_obj.price}`).toFixed(3)).toLocaleString()}</Orderprice>
    <Orderquantity>Qty: {order_items.quantity}</Orderquantity>
  </Cardtitle>
 </Ordercard>
@@ -242,31 +386,86 @@ const onChange = e=>{
  
 </Totalorder>
 <Ordertotal>
-  <Subtotal><span>Subtotal</span> <p>&#8358;{Number(parseFloat(`${data.total}`).toFixed(3)).toLocaleString()} </p></Subtotal>
-  <Subtotal><span>Delivery fee</span> <p>&#8358; {shippingFee}</p></Subtotal>
+  <Subtotal><span>Subtotal</span> <p>&#8358;{Number(parseFloat(`${data.get_order_total}`).toFixed(3)).toLocaleString()} </p></Subtotal>
+  <Subtotal><span>Delivery fee</span> <p>{shippingFee ? <> &#8358;{Number(parseFloat(`${shippingFee}`).toFixed(3)).toLocaleString()}</>: <>0</>}</p></Subtotal>
 </Ordertotal>
-<CartTotal><span>Total</span> <p>&#8358;{Number(parseFloat(`${data.get_order_total}`).toFixed(3)).toLocaleString()}</p></CartTotal>
+<CartTotal><span>Total</span> <p>&#8358;{Number(parseFloat(`${data.get_order_final_total}`).toFixed(3)).toLocaleString()}</p></CartTotal>
 
 </Total>
+
 </div>
-
 } 
-</Checkout>
+</>}
 
+</Checkout>
+{!pageLoading && !authenticated && <>
+  <Empty>
+<Emptyh1>You are not logged in.</Emptyh1>
+<EmptyButton to='/login'>Log In To Shop</EmptyButton>
+
+</Empty>
+</>}
 </Container>
       </Cartbody>
     )
 }
 
 
+const Empty = styled.div`
+width: 100%;
+min-height: 200px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`
+const Emptyh1 = styled(H2)`
+margin: 24px 0;
+text-align: center;
+`
+const EmptyButton = styled(wideButton)`
+
+`
 
 const Cartbody = styled.div`
 min-height: 600px;
 width: 100%;
-display: flex;
 
 `
 
+const Checksection = styled.div`
+min-height: 300px;
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: flex-start;
+flex-direction: column;
+`
+const Checkedaddress = styled(H2)`
+margin: 8px 0;
+`
+const DefaultAddressDetails = styled(SmallCaption)`
+min-height: 10px;
+width: 100%;
+color:${themes.black};
+margin: 0 0 0  16px;
+display: flex;
+justify-content: flex-start;
+align-items: center;
+`
+const DefaultLabel = styled(P)`
+min-height: 10px;
+width: 100px;
+`
+const Defaultrow = styled.div`
+min-height: 20px;
+width: 100%;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+margin: 4px 0;
+`
 const Container = styled.div`
 height: 100%;
 width: 100%;
@@ -327,8 +526,8 @@ width: 100%;
 max-width: 400px;
 display: flex;
 flex-direction: column;
-background: ${themes.white};
-box-shadow: ${themes.shadow};
+background: #fafafa;
+/* box-shadow: ${themes.shadow}; */
 padding: 10px 15px;
 `
 
@@ -450,11 +649,26 @@ const AddressName = styled(NewCaption)`
 margin: 0 0 0 8px;
 `
 
-const UseDefault = styled.div``
-const Usecheck = styled.div``
-const UseText = styled.div``
-const AddIcon = styled.div``
-const AddText = styled.div``
+const UseDefault = styled.div`
+
+`
+const Usecheck = styled.input`
+width: 16px;
+height: 16px;
+margin: 8px 0;
+
+`
+const UseText = styled(medium)`
+margin: 0 8px;
+`
+
+const AddText = styled.label`
+width: 100%;
+min-height: 40px;
+display: flex;
+flex-direction:row;
+justify-content: center;
+`
 
 const Form = styled.form`
 min-height: 400px;
@@ -487,10 +701,68 @@ const Checkinputcover = styled.div``
 const Label = styled.label``
 const Formname = styled(SmallCaption)``
 
-const Checkselect = styled(formSelect)`
+const Checkselect = styled(RegionDropdown)`
+height: 52px;
+width: 100%; 
+margin: 8px 0;
+padding: 8px 12px;
+outline: none;
+appearance: none;
+background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8.39697L12 16.397L20 8.39697" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+background-position: top 50% right 8px;
+background-repeat: no-repeat;
+background-size: 9%;
+font-size: 14px;
+border-radius: 5px;
+line-height: 1.42857143;
+color: #333333;
+
+background-color: #ffffff;
+ border: 1px solid #cccccc;
+
+::placeholder{
+        font-size: 15px;
+        color: #cccccc;
+        text-transform: capitalize;
+}
+
+:active,:focus,:hover{
+    border: 2px solid ${themes.jane};
+    outline: none;
+}
 `
-const Checkoption = styled.option`
+
+const CheckCountryselect = styled(CountryDropdown)`
+height: 52px;
+width: 100%; 
+margin: 8px 0;
+padding: 8px 12px;
+outline: none;
+appearance: none;
+background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8.39697L12 16.397L20 8.39697" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+background-position: top 50% right 8px;
+background-repeat: no-repeat;
+background-size: 9%;
+font-size: 14px;
+border-radius: 5px;
+line-height: 1.42857143;
+color: #333333;
+
+background-color: #ffffff;
+ border: 1px solid #cccccc;
+
+::placeholder{
+        font-size: 15px;
+        color: #cccccc;
+        text-transform: capitalize;
+}
+
+:active,:focus,:hover{
+    border: 2px solid ${themes.jane};
+    outline: none;
+}
 `
+
 const CheckoutInput = styled(formInput)``
 
 const mapStateToProps = state =>{

@@ -14,11 +14,11 @@ font-family: "Mulish", sans-serif;
 export const H2 = styled.h2`
 font-size: 32px;
 font-weight: 600;
-line-height: 34px;
+line-height: 1.2;
 font-family: "Mulish", sans-serif;
 @media only screen and (max-width:550px){
     font-size: 24px;
-    line-height: 28px;
+
 }
 `
 export const HeaderLight = styled.h2`

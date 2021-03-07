@@ -9,11 +9,12 @@ import { H2,H3, medium,NewCaption } from '../styles/TextStyles'
 import { authAxios } from '../utils'
 import {AiOutlinePlus, AiOutlineMinus} from 'react-icons/ai'
 import {FaTrash } from 'react-icons/fa'
-import Pageloading from '../components/Pageloading'
 import { formInput } from '../styles/InputStyles'
 import Loading from '../components/Loading'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Skeleton from '../components/Skeleton'
+import HeaderSkeleton from '../components/HeaderSkeleton'
 
 const Cart = (props) => {
 
@@ -30,7 +31,7 @@ const Cart = (props) => {
     code 
   }=form
 
-    const {authenticated, cart} = props;
+    const {authenticated, cart,empty} = props;
   
 
 
@@ -62,12 +63,12 @@ const Cart = (props) => {
       })
     }
     
-const handleRemoveItem = itemID =>{
+const handleRemoveItem = slug =>{
     authAxios
-    .delete(orderItemDeleteURL(itemID))
+    .post(orderItemDeleteURL, {slug})
     .then(res=>{
       handleNewFetchCart()
-      props.fetchCart()
+  
     })
     .catch(res=>{
 
@@ -76,6 +77,7 @@ const handleRemoveItem = itemID =>{
     
  
 useEffect(() => {
+  props.fetchCart()
     handleFetchCart()
  
 
@@ -126,10 +128,11 @@ const onSubmit = e =>{
       console.log(res)
   setCouponLoading(false)
   setForm(initial)
+  handleNewFetchCart()
 
 })
 .catch(err=>{
-  toast.error("Coupon is not valid")
+  toast.error(err.response.data.message)
   setCouponLoading(false)
 
 })
@@ -138,11 +141,26 @@ const onSubmit = e =>{
       <Cartbody>
       <ToastContainer/>
 <Container>
+
 <Title><Titleh1>SHOPPING BAG</Titleh1></Title>
-{authenticated && <Cartrang><Cartrangh3>Your Cart Lovely! ({cart !== null ? cart.order_items.length : 0 } {cart !== null && cart.order_items.length > 1 ? <span>items</span> :<span>item</span>})</Cartrangh3></Cartrang>}
+
+
+{loading && <> <HeaderSkeleton/></> }
+{authenticated &&
+<>
+{loading ? <> <Skeleton/></> :
+<>
+{authenticated && 
+<Cartrang><Cartrangh3>Your Cart Lovely! ({cart !== null ? cart.order_items.length : 0 } {cart !== null && cart.order_items.length > 1 ? <span>items</span> :<span>item</span>})</Cartrangh3></Cartrang> }
+</>}
+{cart !== null &&
+
+<>
 {data && 
 <Section>
 <Table>
+{loading ? <Skeleton/>: 
+<> 
 <Thead>
 <Tr>
 <Th>Item</Th>
@@ -150,7 +168,7 @@ const onSubmit = e =>{
 <Th>Price</Th>
 
 </Tr></Thead>
-{loading && <Pageloading/>}
+
 {data.order_items.map(order_items => {
     return(
         <Tbody key={order_items.id}><Tr>  
@@ -162,9 +180,9 @@ const onSubmit = e =>{
    <Quanplus onClick={ () => handleAddToCart(order_items.item_obj.slug)} /></Quant>
 
     
-<Remove onClick={() => handleRemoveItem(order_items.id)}> <Removeicon/> Remove</Remove>
+<Remove onClick={() => handleRemoveItem(order_items.item_obj.slug)}> <Removeicon/> Remove</Remove>
     </Quantity></Td>
-    <Td>&#8358;{order_items.item_obj.price}</Td></Tr>
+    <Td>&#8358;{Number(parseFloat(`${order_items.item_obj.price}`).toFixed(3)).toLocaleString()}</Td></Tr>
 </Tbody>
     )
 }
@@ -174,33 +192,54 @@ const onSubmit = e =>{
 <Tdata>{!data.total? <Empty>
 <Emptyh1>Your shopping bag is empty.</Emptyh1>
 <EmptyButton to='/shop'>CONTINUE SHOPPING</EmptyButton></Empty> : null}</Tdata>
-</Tempty>
+</Tempty></>}
 </Table>
-{data.total && <Checkout>
 
-<Subtotal><Item><span>Subtotal</span></Item><Total>&#8358;{data.total}</Total></Subtotal>
-{data.coupon && <Subtotalcoupon><CouponItem><span>Discount</span></CouponItem><CouponTotal> -&#8358;{data.coupon.amount}</CouponTotal></Subtotalcoupon>}
+{data.total && 
+<>
+{loading ? <Checkout>
+  <Skeleton/>
+  </Checkout> : <> <Checkout>
+
+
+<Subtotal><Item><span>Subtotal</span></Item><Total>&#8358;{Number(parseFloat(`${data.get_order_total}`).toFixed(3)).toLocaleString()}</Total></Subtotal>
+{data.coupon && <Subtotalcoupon><CouponItem><span>Discount</span></CouponItem><CouponTotal> -&#8358;{Number(parseFloat(`${data.coupon.amount}`).toFixed(3)).toLocaleString()}</CouponTotal></Subtotalcoupon>}
 <Couponcover>
   <Couponform onSubmit={onSubmit}>
     <Couponinput required onChange={onChange} name="code" value={code} placeholder="Discount code" />
     <Couponapply type="submit">{ couponLoading ? <Loading/> : "Apply"}</Couponapply>
   </Couponform>
 </Couponcover>
-<CheckoutBtn to='/checkout'>Checkout</CheckoutBtn></Checkout>}
+<CheckoutBtn to='/checkout'>Checkout</CheckoutBtn></Checkout></>}
+</>}
 
 
 
 </Section>}
 
 
+</>}
 
-{!authenticated && 
-<Empty>
+
+{!loading && !authenticated && <>
+
+  <Empty>
 <Emptyh1>You are not logged in.</Emptyh1>
 <EmptyButton to='/login'>Log In To Shop</EmptyButton>
 
-</Empty>}
+</Empty>
 
+
+
+</>}
+
+{authenticated && !loading && empty &&
+<>
+<Empty>
+<Emptyh1>Your shopping bag is empty.</Emptyh1>
+<EmptyButton to='/shop'>CONTINUE SHOPPING</EmptyButton></Empty> 
+</>}
+</>}
 </Container>
       </Cartbody>
     )
@@ -209,7 +248,7 @@ const onSubmit = e =>{
 
 
 const Cartbody = styled.div`
-min-height: 600px;
+min-height: 400px;
 width: 100%;
 display: flex;
 
@@ -327,7 +366,7 @@ font-weight: 600;
 
 const Empty = styled.div`
 width: 100%;
-min-height: 300px;
+min-height: 200px;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -460,7 +499,8 @@ height: 24px;
 const mapStateToProps = state =>{
     return {
       authenticated: state.auth.token !== null,
-      cart: state.cart.shoppingCart
+      cart: state.cart.shoppingCart,
+      empty: state.cart.shoppingCart === null
     }
   }
   

@@ -56,3 +56,58 @@ html {
   -o-transition: 0.4s ease-in;
   transition-property: border;
 }
+
+.Toastify__toast--error {
+  max-width: 500px;
+  width: 100%;
+  min-height: 64px;
+  background: rgab(7, 68, 50, 1);
+  border-radius: 10px;
+  transition: 0.3s ease-in;
+  -webkit-transition: 0.3s ease-in;
+  -moz-transition: 0.3s ease-in;
+  -ms-transition: 0.3s ease-in;
+  -o-transition: 0.3s ease-in;
+}
+
+.Toastify__toast--success {
+  max-width: 500px;
+  width: 100%;
+  min-height: 64px;
+  background: #29d663;
+  box-shadow: 0px 4px 40px rgba(26, 33, 81, 0.08);
+  border-radius: 10px;
+  transition: 0.3s ease-in;
+  -webkit-transition: 0.3s ease-in;
+  -moz-transition: 0.3s ease-in;
+  -ms-transition: 0.3s ease-in;
+  -o-transition: 0.3s ease-in;
+}
+/* .Toastify__progress-bar {
+  display: none;
+} */
+
+.paystackButton {
+  font-family: "Mulish", sans-serif;
+  width: 210px;
+  height: 54px;
+  background: #000000;
+  color: #fff;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  text-align: center;
+  font-weight: 500;
+  display: flex;
+  box-shadow: 0px 4px 24px 0 rgba(0, 0, 0, 0.05);
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: 0.4s ease-in;
+}
+
+.paystackButton:hover {
+  background: #424242;
+}

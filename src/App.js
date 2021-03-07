@@ -25,6 +25,14 @@ import NotFound from './pages/NotFound'
 import { GlobalStyles } from './styles/GlobalStyles'
 import ResetPassword from './pages/ResetPassword'
 import ChangePassword from './pages/ChangePassword'
+import Payment from './pages/Payment'
+import Success from './pages/Success'
+import Account from './pages/Account'
+import Order from './components/Order'
+import OrderDetail from './components/OrderDetail'
+import Wishlist from './components/Wishlist'
+import Address from './components/Address'
+import AddressUpdate from './components/AddressUpdate'
 
 
 
@@ -64,6 +72,14 @@ const App = (props) => {
 <Route exact path='/signup' component={SignUp}/>
 <Route exact path='/account/login/reset' component={ResetPassword}/>
 <Route exact path='/account/reset/:uuid/:token' component={ChangePassword}/>
+<Route exact path='/payment' component={Payment}/>
+<Route exact path='/order-successful' component={Success}/>
+<Route exact path='/account' component={Account}/>
+ <Route exact path='/account/order' component={Order}/>
+<Route exact path='/account/order/:id' component={OrderDetail}/>
+<Route exact path='/account/address' component={Address}/>
+<Route exact path='/account/address/edit/:id' component={AddressUpdate}/>
+<Route exact path='/account/wishlist' component={Wishlist}/>
 
 <Route component={NotFound}/>
 </Switch>

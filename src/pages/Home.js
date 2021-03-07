@@ -3,13 +3,11 @@ import styled from 'styled-components'
 import Banner from '../components/Banner'
 import ProductCard from '../components/ProductCard'
 import { themes } from '../styles/ColorStyles'
-import {  H1,H2, P } from '../styles/TextStyles'
+import {  H1 } from '../styles/TextStyles'
 import Display from '../components/Display'
 import Newsletter from '../components/Newsletter'
-import { mainButton } from '../styles/Button'
 import axios from 'axios'
 import { addToCartUrl,productDetailURL, productList } from '../constants'
-import Pageloading from '../components/Pageloading'
 import Modal from '../components/Modal'
 import { authAxios } from '../utils'
 import { fetchCart } from '../store/actions/cart'
@@ -19,6 +17,8 @@ import ModalLoading from '../components/ModalLoading'
 import ProductModal from '../components/ProductModal'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Skeleton from '../components/Skeleton'
+import Hero from '../components/Hero'
 
 
 const Home = (props) => {
@@ -31,9 +31,11 @@ const Home = (props) => {
     const [showModal, setShowModal] = useState(false)
     const [ modalLoading, setModalLoading] = useState(false)
 
-    const {authenticated} =props;
+    const {authenticated} = props;
 
 useEffect(() => {
+
+    props.fetchCart()
     async function fetchItems(){
         setPageLoading(true)
         try{
@@ -99,16 +101,7 @@ axios
         <div>
         <ToastContainer />
 
-        <Slider> 
-        <Janehero>
-            <Herocontainer>
-                <Herotext>Welcome To Jane's Fashion</Herotext>
-                <Herebig>"GIVING THE BEST <span>AT THE BEST PRICE"</span></Herebig>
-                <Herobutton to='/shop'>Shop Now</Herobutton>
-            </Herocontainer>
-        </Janehero>
-      
-        </Slider>
+       <Hero/>
 
        <Display/>
       
@@ -124,10 +117,10 @@ axios
 <Productcontainer>
 
     <ProductTitle><Titleh1>Our Fab <span>Products</span></Titleh1></ProductTitle>
-    {pageLoading && <Pageloading/>}
+  
     <Products className="products">
-
-    {data && data.map(item=>{
+    {pageLoading && [1,2,3, 4,5,6].map(n=> <Skeleton key={n}/>)}
+    {!pageLoading && data && data.map(item=>{
        return (
         <ProductCard key={item.id} slug={`/product/${item.slug}`} desc={item.description} loading={loading} img={item.image} price={item.price} discount={item.discount_price} title={item.title} cardAdd={()=> handleAddToCart(item.title,item.slug)} cardSearch={() =>cardModal(item.slug)} />
        )
@@ -147,59 +140,6 @@ axios
         </div>
     )
 }
-
-const Slider = styled.div`
-height: 600px;
-width: 100%;
-margin: 0 0 24px 0;
-`
-
-const Janehero= styled.div`
-width: 100%;
-height: 100%;
-margin: 0 auto;
-background: url("https://res.cloudinary.com/jane-s-fashion/image/upload/v1606049649/IMG-20190914-WA0008_fqboty.jpg") no-repeat center center/cover;
-
-position: relative;
-z-index: 1;
-display: flex;
-justify-content: center;
-align-items: center;
-::after{
-    position: absolute;
-    content: "";
-    background: ${themes.overlay};
-    top: 0;
-    left: 0;
-    width: 100%;
-height: 100%;
-z-index: -1;
- 
-}
-`
-const Herocontainer= styled.div`
-color: ${themes.white};
-width: 100%;
-height: 100%;
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-position: relative;
-z-index: 1;
-text-align: center;
-`
-const Herotext= styled(P)`
-margin: 8px 0;
-`
-const Herebig= styled(H2)`
-margin: 8px 0;
-`
-const Herobutton= styled(mainButton)`
-margin: 24px 0;
-`
-
-
 
 const Product = styled.div`
 width: 100%;

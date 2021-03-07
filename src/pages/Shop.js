@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Bonus from '../components/Bonus'
-import Pageloading from '../components/Pageloading'
 import ProductCard from '../components/ProductCard'
 import SiteBanner from '../components/SiteBanner'
+import Skeleton from '../components/Skeleton'
 import { themes } from '../styles/ColorStyles'
-import {H2, H3, Small } from '../styles/TextStyles'
+import {H2, H3 } from '../styles/TextStyles'
 
 
 const Shop = () => {
 
-    const [loading , setLoading] = useState(false)
+    const [pageLoading , setPageLoading] = useState(true)
 
     useEffect(() => {
-        setLoading(true)
+        setPageLoading(true)
      }, [])
 
     return (
@@ -51,21 +50,14 @@ const Shop = () => {
                 </Productfilter>
 
                 <Products>
+                {pageLoading && [1,2,3,4,5,6].map(n=><Skeleton key={n}/>)}
 <ProductCard/>
-<ProductCard/>
-<ProductCard/>
-<ProductCard/>
-<ProductCard/>
-<ProductCard/>
-<ProductCard/>
-<ProductCard/>
-<ProductCard/>
-<ProductCard/>
+
                 </Products>
             </Productionsection>
 
-{/* {loading && <Pageloading />} */}
-            <Bonus/>
+
+
         </div>
     )
 }

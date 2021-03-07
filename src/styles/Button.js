@@ -171,3 +171,27 @@ transition-property: background border;
         color: ${themes.jane};
     }
 `
+
+export const smallButton = styled(Link)`
+  font-family: "Mulish", sans-serif;
+width: 130px;
+height: 40px;
+background: ${themes.black};
+color: ${themes.white};
+outline: none;
+border: none;
+font-size: 16px;
+text-align: center;
+font-weight: 500;
+display: flex;
+box-shadow: 0px 4px 24px 0 rgba(0,0,0,0.05);
+justify-content: center;
+align-items: center;
+border-radius: 10px;
+letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.4s ease-in;
+    :hover{
+        background: ${themes.blackLight};
+    }
+`

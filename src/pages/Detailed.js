@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
-import { addToCartUrl, productDetailURL,addToWishlist, checkWishlistURL, reviewsURL,checkReviewsURL } from '../constants'
+import { baseURL,addToCartUrl, productDetailURL,addToWishlist, checkWishlistURL, reviewsURL,checkReviewsURL,  getRelatedItems } from '../constants'
 import styled from 'styled-components'
 import { HeaderLight, H3,Caption, Small} from '../styles/TextStyles'
 import { themes } from '../styles/ColorStyles'
@@ -14,10 +14,11 @@ import { connect } from 'react-redux'
 import { fetchCart } from '../store/actions/cart'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ProductCard from '../components/ProductCard'
 import ReviewImage from '../images/review.svg'
 import { MainTextarea } from '../styles/InputStyles'
 import {FaStar} from 'react-icons/fa'
+import PageSkeleton from '../components/PageSkeleton'
+import DetailsCard from '../components/DetailsCard'
 
 const Detailed = (props) => {
 
@@ -27,9 +28,12 @@ const Detailed = (props) => {
   const [product, setProduct] = useState([])
   const {slug} = useParams()
   const [loading, setLoading] = useState(false)
+  const [pageLoading, setPageLoading] = useState(false)
   const [hover, setHover] = useState(null)
 const [rating, setRating] = useState(null)
 const[getReviews, setGetReviews] = useState([])
+const[getRelatedProducts, setGetRelatedProducts] = useState([])
+// const [fetchNewItem, setFetchNewItem]= useState(false)
   const [writeReview, setWriteReview] = useState(false)
   const [wishListCheck, setWishListCheck] =useState(false)
   const [form, setForm] = useState(initial)
@@ -57,16 +61,33 @@ const onChange = e =>{
       setWishListCheck(false)
     })
   }
+
+  
+  const getRelated =()=>{
+    authAxios
+    .get((getRelatedItems),   {params: {slug}})
+  
+    .then(res=>{
+      setGetRelatedProducts(res.data)
+    })
+    .catch(err=>{
+  
+    })
+  }
+  
+
 const {authenticated} = props;
 
   const fetchProduct = ()=>{
+    setPageLoading(true)
     axios
     .get(productDetailURL(slug))
     .then(res=>{
       setProduct(res.data)
+      setPageLoading(false)
     })
     .catch(err=>{
-
+      setPageLoading(false)
     })
   }
 
@@ -143,12 +164,19 @@ const {authenticated} = props;
     }
   }
 
+
   useEffect(() => {
   fetchProduct()
   checkWishList()
   checkReviews()
+  getRelated()
+ 
 
-}, [])
+
+}, [slug])
+
+
+
 
 const changeImage = image=>{
   setMainImage(image)
@@ -160,9 +188,11 @@ const changeImage = image=>{
 
   <ToastContainer/>
     <Container>
+ 
 <Top>      
-<ProductImage>
 
+<ProductImage>
+{pageLoading && <PageSkeleton/>}
 <MainImage>
 <Main ref={mainImageRef} src={mainImage ? mainImage : product.image}/>
 </MainImage>
@@ -175,6 +205,7 @@ const changeImage = image=>{
 </SmallImage>
       </ProductImage>
       <ProductDetails>
+      {pageLoading && <PageSkeleton/>}
       <Title> <Category>Category:</Category><Cat>{product.category}</Cat></Title>
 <Title><Titleh1>{product.title}</Titleh1></Title>
 <Title><Price>&#8358; {Number(parseFloat(`${product.price}`).toFixed(3)).toLocaleString()}</Price>
@@ -220,9 +251,23 @@ const changeImage = image=>{
     </Container>
     <Cute>
 <Container>
-<Cuteheader>RECOMMENDED FOR YOU</Cuteheader>
+<Cuteheader><Cuterecom>RECOMMENDED FOR YOU</Cuterecom></Cuteheader>
 <Cuteproducts>
-  <ProductCard/>
+{getRelatedProducts.length > 0 &&
+<>
+  {getRelatedProducts.map(item=>{
+
+    return(
+      <>
+      <DetailsCard key={item} cardAdd={()=>handleAddToCart(item.title,item.slug)} title={item.title} price={item.price} slug={`/product/${item.slug}`} img={`${baseURL}${item.image}`} desc={String(`${item.description}`).slice(0,100)}/>
+
+      </>
+    )
+  })}
+  </>
+}
+
+
 </Cuteproducts></Container>
 </Cute>
 <Reviews>
@@ -296,7 +341,7 @@ const Container = styled.div`
 width: 100%;
 height: 100%;
 max-width: 1100px;
-margin: 0 auto;
+margin: 16px auto;
 padding: 0 15px;
 `
 
@@ -567,23 +612,28 @@ const Cute = styled.div`
 width: 100%;
 min-height: 500px;
 background: ${themes.smokeWhite};
-
+margin: 24px 0;
 `
 const Cuteheader = styled.div`
 width: 100%;
 display: flex;
 justify-content: center;
 align-items: center;
-min-height: 60px;
+min-height: 100px;
+margin: 24px 0; 
+`
+const Cuterecom = styled.h1`
 font-size: 32px;
-margin: 16px 0; 
+text-align: center;
+width: 100%;
+height: 100%;
 padding: 16px 0;
 font-weight: 600;
-line-height: 34px;
+line-height: 1.2;
 font-family: "Inter", sans-serif;
 @media only screen and (max-width: 650px){
     font-size: 24px;
-    line-height: 28px;
+
 }
 `
 const Cuteproducts = styled.div`
