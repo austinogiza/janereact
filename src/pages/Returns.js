@@ -6,10 +6,10 @@ import { themes } from  '../styles/ColorStyles'
 
 const Returns = () => {
     return (
-      <Returnspage className="w-full h-full flex flex-col min-h-full">
+      <Returnspage className="w-full h-full flex flex-col min-h-full py-4 px-4 max-h-96 mb-16 mt-10">
 
-          <ReturnsContainer className='grid gap-6 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 w-full h-full min-h-full grid-cols-1 max-w-6xl mx-auto py-4 px-4'>
-          <Returnsleft className="text-left flex flex-col">
+<ReturnsContainer className='grid gap-4 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 w-full h-full min-h-full grid-cols-1 max-w-6xl mx-auto '>
+<Returnsleft className="text-left flex flex-col">
     <Returnsh1>Returns Policy</Returnsh1>
     <Returnslink>
     <a href="mailto:support@janes-fashion.com">Support@janes-fashion.com</a>
