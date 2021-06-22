@@ -7,7 +7,7 @@ const Returns = () => {
     return (
       <Returnspage>
 
-          <ReturnsContainer className='grid  gap-6 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 w-full h-full grid-cols-1 max-w-6xl mx-auto py-4 px-4'>
+          <ReturnsContainer className='grid gap-6 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 w-full h-full grid-cols-1 max-w-6xl mx-auto py-4 px-4'>
 <Returnsleft className="text-left flex flex-col">
     <Returnsh1>Returns Policy</Returnsh1>
     <Returnslink>
@@ -15,7 +15,7 @@ const Returns = () => {
     </Returnslink>
 </Returnsleft>
 
-<Returnright>
+<Returnright className="text-left flex flex-col">
 
 <Returnsh2>Refund & Returns</Returnsh2>
 <Returnsp>
@@ -42,12 +42,7 @@ const ReturnsContainer = styled.div`
 
 `
 const Returnsleft = styled.div`
-width:100%;
-height: 100%;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: flex-start;
+
 
 `
 

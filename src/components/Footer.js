@@ -39,7 +39,7 @@ const Footer = () => {
     </Footerdetails>
     <FooterLinks>
 
-<ul className="text-center">
+<ul >
 
 
 
@@ -139,7 +139,7 @@ ul{
     flex-direction: row;
     @media only screen and (max-width: 550px){
         flex-direction: column;
-        text-align: justify;
+        text-align: center;
     }
     li{
         padding: 10px 15px;
