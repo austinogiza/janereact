@@ -73,7 +73,7 @@ We import our items directly from the manufacturers and sell in wholesale and re
 </Team>
         
 
-<Aboutrow className="flex flex-col w-full py-4 px-4 bg-black h-full min-h-full justify-center items-center">
+<Aboutrow className="flex flex-col w-full py-2 px-2 bg-black h-full min-h-full justify-center items-center">
 <Aboutp className="lg:text-4xl 2xl:text-4xl xl:text-4xl text-2xl text-white mt-6 mb-4">Follow us on Instagram
 </Aboutp>
 
@@ -111,7 +111,9 @@ We import our items directly from the manufacturers and sell in wholesale and re
     </Aboutimage>
 </Aboutcover>
 
-<Aboutbutton className="mt-6 mb-6" href="https://www.instagram.com/_janesfashion/" target="_blank" rel="noopener noreferrer">Follow us</Aboutbutton>
+<Aboutcover className="mb-10  mt-10">
+<Aboutbutton  href="https://www.instagram.com/_janesfashion/" target="_blank" rel="noopener noreferrer">Follow us</Aboutbutton>
+</Aboutcover>
 </Aboutrow>
 
 </Aboutbody>

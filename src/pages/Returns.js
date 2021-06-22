@@ -6,9 +6,9 @@ import { themes } from  '../styles/ColorStyles'
 
 const Returns = () => {
     return (
-      <Returnspage>
+      <Returnspage className="w-full h-full flex flex-col min-h-full">
 
-          <ReturnsContainer className='grid  gap-6 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 w-full h-full grid-cols-1 max-w-6xl mx-auto py-4 px-4'>
+          <ReturnsContainer className='grid gap-6 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 w-full h-full grid-cols-1 max-w-6xl mx-auto py-4 px-4'>
           <Returnsleft className="text-left flex flex-col">
     <Returnsh1>Returns Policy</Returnsh1>
     <Returnslink>
@@ -36,12 +36,7 @@ When the item received is not what is paid for, you are entitled to a refund wit
 }
 
 const Returnspage = styled.div`
-min-height: 400px;
-width:100%; 
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+
 `
 
 const Faqcard = styled.div`
