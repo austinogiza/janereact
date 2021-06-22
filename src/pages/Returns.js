@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {H1, H3, P} from '../styles/TextStyles'
 import { themes } from  '../styles/ColorStyles'
-import Bonus from '../components/Bonus'
+
 const Returns = () => {
     return (
       <Returnspage>
@@ -26,13 +26,13 @@ When the item received is not what is paid for, you are entitled to a refund wit
 </Returnsp>
 </Returnright>
           </ReturnsContainer>
-          <Bonus/>
+
       </Returnspage>
     )
 }
 
 const Returnspage = styled.div`
-min-height: 600px;
+min-height: 400px;
 width:100%; 
 display: flex;
 flex-direction: column;

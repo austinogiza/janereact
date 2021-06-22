@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
-import { baseURL,addToCartUrl, productDetailURL,addToWishlist, checkWishlistURL, reviewsURL,checkReviewsURL,  getRelatedItems } from '../constants'
+import { baseURL,addToCartUrl, productDetailURL,addToWishlist, checkWishlistURL, reviewsURL,checkReviewsURL,  getRelatedItems, recentlyViewed } from '../constants'
 import styled from 'styled-components'
 import { HeaderLight, H3,Caption, Small} from '../styles/TextStyles'
 import { themes } from '../styles/ColorStyles'
@@ -76,6 +76,16 @@ const onChange = e =>{
   }
   
 
+  const addToRecent=()=>{
+    authAxios
+    .post(recentlyViewed, {slug})
+    .then(res=>{
+
+    })
+    .catch(err=>{
+
+    })
+  }
 const {authenticated} = props;
 
   const fetchProduct = ()=>{
@@ -166,12 +176,13 @@ const {authenticated} = props;
 
 
   useEffect(() => {
+ 
   fetchProduct()
   checkWishList()
   checkReviews()
   getRelated()
- 
-
+addToRecent()
+  document.title = `Jane's Fashion`
 
 }, [slug])
 

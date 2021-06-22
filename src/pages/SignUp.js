@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import Banner from '../components/Banner'
@@ -24,6 +24,12 @@ password2: ""
 }
     const [form, setForm] = useState(initial)
     const [formError, setFormError] = useState(null)
+    const [firstNameError, setFirstNameError] = useState(null)
+    const [lastNameError, setLastNameError] = useState(null)
+    const [usernameError, setUsernameError] = useState(null)
+    const [emailError, setEmailError] = useState(null)
+    const [passwordError, setPasswordError] = useState(null)
+    const [password2Error, setPassword2Error] = useState(null)
 const {loading, error, authenticated} = props;
 
 const {first_name,
@@ -34,6 +40,22 @@ password1,
 password2
 } = form;
 
+useEffect(() => {
+   
+    return () => {
+        setFormError(null)
+        setUsernameError(null)
+        setEmailError(null)
+        setFirstNameError(null)
+        setLastNameError(null)
+        setPasswordError(null)
+        setPassword2Error(null)
+        
+    }
+}, [])
+
+
+
 if(authenticated){
     return <Redirect to="/" />
 }
@@ -43,33 +65,42 @@ const onChange = e =>{
 const {name, value} = e.target;
 setForm({...form, [name]: value})
 setFormError(null)
+setUsernameError(null)
+setEmailError(null)
+setFirstNameError(null)
+setLastNameError(null)
+setPasswordError(null)
+setPassword2Error(null)
+
     
 }
+
 
 
 const onSubmit = e=>{
     e.preventDefault();
 
     if(username !== ""&& email !== ""&& password1 !== ""&& password2 !== ""&& first_name!== ""&& last_name!==""){
+        
         if(password1 !== password2){
-            setFormError("Your passwords do not match")
+            setPassword2Error("Your passwords do not match")
         }
         
         else{
-            if(password1.length >= 8 && password2.length >= 8){
+            if(password1.length >= 5 && password2.length >= 5){
                 switch (true) {
                     case error:
                         return error;
-                        break;
+    
                     default:
-                        props.signup(first_name, last_name, username, email, password1,password2,  );
+                        props.signup(first_name, last_name, username, email, password1,password2);
                         break;
                 }
                
      
             }
             else{
-                setFormError("Your password must be a minimum of 8 characters")
+                setPassword2Error("Your password must be a minimum of 5 characters")
             }
      
         }
@@ -78,29 +109,29 @@ const onSubmit = e=>{
         if(username === ""&& email === ""&& password1 === ""&& password2 === "" && first_name==="" && last_name===""){
             setFormError("Please fill all fields")
         }
-        else if(username === ""){
-            setFormError("Please Enter Your username")
+         if(username === ""){
+            setUsernameError("Please Enter Your username")
 
         }
-        else if(email === ""){
-            setFormError("Please Enter Your Email")
+        if(email === ""){
+            setEmailError("Please Enter Your Email")
 
         }
-        else if(first_name === ""){
-            setFormError("Please Enter Your First Name")
+        if(first_name === ""){
+            setFirstNameError("Please Enter Your First Name")
 
         }
-        else if(last_name === ""){
-            setFormError("Please Enter Your Last Name")
+        if(last_name === ""){
+            setLastNameError("Please Enter Your Last Name")
 
         }
 
-        else if(password1 === ""){
-            setFormError("Please Enter Your password")
+        if(password1 === ""){
+            setPasswordError("Please Enter Your password")
 
         }
-        else if(password2 === ""){
-            setFormError("Please enter confirm password")
+        if(password2 === ""){
+            setPassword2Error("Please enter confirm password")
 
         }
         
@@ -118,6 +149,7 @@ const onSubmit = e=>{
            <Loginh2>Create Account</Loginh2>
        </Logintitle>
        {error && <Formmessage><p>{error}</p></Formmessage>}
+       {formError && <Formmessage><p>{formError}</p></Formmessage>}
       
        <Loginform onSubmit={onSubmit}>
        
@@ -125,36 +157,48 @@ const onSubmit = e=>{
        <LabelName>
            First Name
        </LabelName>
-        <Logininput required name="first_name" value={first_name} onChange={onChange} type="text" placeholder="First Name"/>
-
+        <Logininput name="first_name" value={first_name} onChange={onChange} type="text" placeholder="First Name"/>
+      
+        {firstNameError && <Formmessage><p>{firstNameError}</p></Formmessage>}
         </Label>
        <Label> 
        <LabelName>
            Last Name
        </LabelName>
-       <Logininput required name="last_name" value={last_name} onChange={onChange} type="text" placeholder="Last Name"/> </Label> 
+       <Logininput  name="last_name" value={last_name} onChange={onChange} type="text" placeholder="Last Name"/> 
+       {lastNameError && <Formmessage><p>{lastNameError}</p></Formmessage>}
+       </Label> 
        <Label>
        <LabelName>
            Username
        </LabelName>
-        <Logininput required name="username" value={username} onChange={onChange} type="text" placeholder="Username"/> </Label>
+        <Logininput  name="username" value={username} onChange={onChange} type="text" placeholder="Username"/> 
+        {usernameError && <Formmessage><p>{usernameError}</p></Formmessage>}
+        </Label>
        <Label>
        <LabelName>
           Email
        </LabelName>
-        <Logininput required name="email" value={email} onChange={onChange} type="email" placeholder="Email"/> </Label>
+        <Logininput  name="email" value={email} onChange={onChange} type="email" placeholder="Email"/> 
+        {emailError && <Formmessage><p>{emailError}</p></Formmessage>}
+        </Label>
        <Label>
        <LabelName>
            Password
        </LabelName>
-        <Logininput  required onChange={onChange} type="password" name="password1" value={password1} placeholder="Password"/> </Label>
+        <Logininput   onChange={onChange} type="password" name="password1" value={password1} placeholder="Password"/> 
+        
+        {passwordError && <Formmessage><p>{passwordError}</p></Formmessage>}
+        </Label>
         <Label>
         <LabelName>
           Confirm Password
        </LabelName>
-        <Logininput required onChange={onChange} type="password" name="password2" value={password2} placeholder="Confirm Password"/>  </Label>
+        <Logininput  onChange={onChange} type="password" name="password2" value={password2} placeholder="Confirm Password"/> 
+        {password2Error && <Formmessage><p>{password2Error}</p></Formmessage>}
+         </Label>
 
-       <Loginbutton> {loading ? <Loading />:  "Create Account"}</Loginbutton>
+       <Loginbutton type="submit"> {loading ? <Loading />:  "Create Account"}</Loginbutton>
        </Loginform>
        <Loginsignup>
 
@@ -181,11 +225,11 @@ align-items: center;
 width: 100%;
 max-width: 400px;
 padding: 10px;
-background: ${themes.jane};
-height: 54px;
+min-height: 10px;
+transition:0.3s ease-in;
 text-align: center;
-margin: 24px auto;
-color:  ${themes.white};
+margin: 8px auto;
+color:  ${themes.red};
 `
 
 const LoginContainer = styled.div`

@@ -88,9 +88,19 @@ export const authSignup = (first_name, last_name, username, email, password1, pa
             dispatch(checkAuthTimeOut(3600));
          
         }).catch(err=>{
-            console.log((err.response.data.email))
-            console.log((err.response.data.username))
-            dispatch(authFail((err.response.data.email) || (err.response.data.username)))
+            if(err.response.data.username){
+                dispatch(authFail((err.response.data.username[0])))
+             }
+             else if(err.response.data.email){
+                dispatch(authFail((err.response.data.email[0])))
+             }
+             else if(err.response.data.password1){
+             
+                dispatch(authFail(err.response.data.password1[0]))
+             }
+             else{
+                dispatch(authFail(err.response.data.non_field_errors))
+             }
          
         })
     }
@@ -99,7 +109,7 @@ export const authSignup = (first_name, last_name, username, email, password1, pa
 export const authCheckState = ()=>{
     return dispatch=>{
         const token = localStorage.getItem('janesFashionToken');
-        if (token === undefined){
+        if (token === undefined || token === null){
             dispatch(logout());
         }
         else{

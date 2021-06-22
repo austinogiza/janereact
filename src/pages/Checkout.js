@@ -92,12 +92,13 @@ const Cart = (props) => {
 
 
 useEffect(() => {
+  document.title = `Jane's Fashion - Checkout`
   handleFetchCartDou()
 handleFetchCart()
 handleFetchAddress()
 
 handleDefaultFetchAddress()
-
+props.fetchCart()
 return ()=>{
   props.fetchCart()
 }

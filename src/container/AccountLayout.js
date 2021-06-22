@@ -13,7 +13,7 @@ const AccountLayout = (props) => {
 
 const {authenticated} = props;
   useEffect(() => {
- 
+    document.title = `Jane's Fashion Dashoard`
    if(authenticated){
     props.fetchCart()
    }else{

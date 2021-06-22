@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { themes } from '../styles/ColorStyles'
 import logo from '../images/logo.svg'
-import { Link } from 'react-router-dom'
+import { Link, Route} from 'react-router-dom'
 import { BiCart, BiLogOut, BiUser } from 'react-icons/bi'
 import { connect } from 'react-redux'
 import {logout} from '../store/actions/auth'
 import { fetchCart } from '../store/actions/cart'
+import SearchBox from './SearchBox'
+import MobileSearch from './MobileSearch'
+
 
 
 const Navbar = (props) => {
@@ -14,10 +17,10 @@ const Navbar = (props) => {
   const [handleLogout, setHandleLogout]= useState(false)
   const { authenticated, cart, emptyCart} = props;
 
+
   const toggle = e => {
     setMenu(!menu)
   }
-
 
 
   useEffect(() => {
@@ -37,8 +40,8 @@ if(handleLogout){
 
         <Navtop>
           <Searchcover>
-            <Searchform>
-              <Search placeholder="Search"></Search>
+         <Route render={({history}) =>  <SearchBox history={history}/>} /> 
+      
               <Mobilesearch onClick={toggle}>
 
                 <Menucontainer>
@@ -47,7 +50,7 @@ if(handleLogout){
                   <Menuspan></Menuspan>
                 </Menucontainer>
               </Mobilesearch>
-            </Searchform>
+       
 
           </Searchcover>
           <Navlogo>
@@ -74,9 +77,7 @@ if(handleLogout){
 
         <Navbottom>
           <MobileSearchcover>
-            <MobileSearchform>
-              <MobileSearch placeholder="Search"></MobileSearch>
-            </MobileSearchform>
+          <Route render={({history}) =>  <MobileSearch history={history}/>} /> 
 
           </MobileSearchcover>
           <NavLinks>
@@ -161,47 +162,6 @@ background: ${themes.white};
 margin-bottom: 4px;
 `
 
-const Searchform = styled.form`
-height: 50px;
-width: 100%;
-`
-const Search = styled.input`
-background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21L16.65 16.65" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-background-position: top 50% left 10px;
-background-repeat: no-repeat;
-background-size: 6%;
-height: 40px;
-width: 100%;
-border-radius: 15px;
-outline: none;
-border: none;
-margin: 8px 0;
-padding: 8px 30px;
-font-size: 14px;
-    line-height: 1.42857143;
-    color: #333333;
-    vertical-align: middle;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-
-::placeholder{
-        font-size: 15px;
-        color: #cccccc;
-        text-transform: capitalize;
-        text-align: center;
-}
-
-:active,:focus,:hover{
-    border: 2px solid ${themes.jane};
-    outline: none;
-}
-
-@media only screen and (max-width:650px){
-  display: none;
-}
-`
-
-
 
 const MobileSearchcover = styled.div`
 height: 50px;
@@ -210,44 +170,6 @@ display: none;
 @media only screen and (max-width: 650px){
 display: flex;
 }
-`
-
-
-const MobileSearchform = styled.form`
-height: 34px;
-width: 100%;
-`
-const MobileSearch = styled.input`
-background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21L16.65 16.65" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-background-position: top 50% left 10px;
-background-repeat: no-repeat;
-background-size: 4%;
-height: 34px;
-width: 100%;
-border-radius: 15px;
-outline: none;
-border: none;
-margin: 8px 0;
-padding: 8px 30px;
-font-size: 14px;
-    line-height: 1.42857143;
-    color: #333333;
-    vertical-align: middle;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-
-::placeholder{
-        font-size: 15px;
-        color: #cccccc;
-        text-transform: capitalize;
-        text-align: center;
-}
-
-:active,:focus,:hover{
-    border: 2px solid ${themes.jane};
-    outline: none;
-}
-
 `
 
 const Cart = styled.div`

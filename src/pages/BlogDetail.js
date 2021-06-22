@@ -39,7 +39,7 @@ const BlogDetail = () => {
        {loading && <Loading/>}
     
 {post && (
-<BlogMainBody>
+<BlogMainBody className="w-full h-auto min-h-0 flex flex-col">
     
 <BlogThumbnail style={{backgroundImage: ` url(${post.image})`, backgroundAttachment: "fixed"}}>
 <Blogdescription>
@@ -82,18 +82,7 @@ width: 100%;
 
 `
 const BlogThumbnail = styled.div`
-width: 100%;
-height: 600px;
-display: flex;
-margin: 0 0 32px 0;
-justify-content:center;
-background-position: center center;
-will-change: transform; 
-transform: translate3d(0px, -1.755%, 0px) scale3d(1.11755, 1.11755, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;
-align-items: center;
-@media only screen and (max-widht: 650px){
-    height: 300px;    
-}
+
 `
 
 

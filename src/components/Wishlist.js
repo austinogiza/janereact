@@ -36,7 +36,7 @@ const handleDelete =slug=>{
 }
   useEffect(()=>{
 
- 
+    document.title = `Jane's Fashion Dashoard - Wishlist`
     fetchSaved()
   },[])
   return (

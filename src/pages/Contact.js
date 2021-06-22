@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import styled from 'styled-components'
 import { themes } from '../styles/ColorStyles'
 import { H2,H3, Small } from '../styles/TextStyles'
@@ -23,6 +23,11 @@ const Contact = () => {
         message: ""
 
     }
+
+    useEffect(() => {
+        document.title = `Jane's Fashion - Contact Us`
+  
+    }, [])
 
     const [form, setForm] = useState(initial);
     const [loading, setLoading] = useState(false)

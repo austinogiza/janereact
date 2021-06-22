@@ -32,6 +32,7 @@ const Order = () => {
   }
 
   useEffect(() => {
+    document.title = `Jane's Fashion Dashoard - Ordered Items`
     fetchOrdered()
     
   }, [])

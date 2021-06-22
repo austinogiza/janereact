@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {H1, H3, P} from '../styles/TextStyles'
 import { themes } from  '../styles/ColorStyles'
-import Bonus from '../components/Bonus'
+
 const Faq = () => {
     return (
       <Returnspage>
@@ -48,13 +48,13 @@ The personal information that you are asked to provide, and the reasons why you 
 </Faqcard>
 </Returnright>
           </ReturnsContainer>
-          <Bonus/>
+
       </Returnspage>
     )
 }
 
 const Returnspage = styled.div`
-min-height: 600px;
+min-height: 400px;
 width:100%; 
 display: flex;
 flex-direction: column;

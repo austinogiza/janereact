@@ -2,17 +2,20 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { themes } from '../styles/ColorStyles'
-import { H1, P } from '../styles/TextStyles'
+import { P } from '../styles/TextStyles'
 
 const NotFound = () => {
     return (
        <Notpage>
        <Notfoundcontainer>
-       <Notimage >
-<Imagenot src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1606687856/404_aj57py.png" alt="Jane's Fashion 404 Page" />
+  
+      <PageNot> 
+      <Notimage className="text-4xl lg:text-9xl font-bold  2xl:text-9xl mb-2">404</Notimage>
+      <Pagenotp className="text-4xl font-medium text-black">Page Not Found </Pagenotp>
+      <PageNoth1 className="text-center mt-2 mb-1 font-normal text-gray-500">The page you are looking for doesn't exist or has been moved.</PageNoth1> 
 
-       </Notimage>
-      <PageNot> <PageNoth1>You seem lost.</PageNoth1> <Pagenotp>Page Not Found </Pagenotp><Link to='/'>Go Home</Link></PageNot>
+      
+      <Link className="mt-10" to='/' >Go Home</Link></PageNot>
        </Notfoundcontainer>
          
        </Notpage>
@@ -20,9 +23,9 @@ const NotFound = () => {
 }
 const Notpage = styled.div`
 width: 100%;
-height: 700px;`
+height: 500px;`
 const Notfoundcontainer = styled.div`
-max-width: 600px;
+max-width: 500px;
 width: 100%;
 height:100%;
 margin: 24px auto;
@@ -32,15 +35,10 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 `
-const Notimage = styled.div`
-width: 100%;
-height:400px;
+const Notimage = styled.h1`
+color: ${themes.jane};
 `
-const Imagenot = styled.img`
-width: 100%;
-height:100%;
-margin: 16px 0;
-`
+
 
 const PageNot = styled.div`
 width: 100%;
@@ -76,9 +74,9 @@ letter-spacing: 1px;
 const PageNoth1 = styled(P)`
 margin: 4px 0;
 `
-const Pagenotp = styled(H1)`
+const Pagenotp = styled.h1`
 margin: 4px 0;
-color: ${themes.grey};
+
 `
 
 export default NotFound

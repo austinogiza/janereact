@@ -49,6 +49,7 @@ const fetchOrderItemDetails =()=>{
 useEffect(()=>{
 fetchOrderDetails()
 fetchOrderItemDetails()
+document.title = `Jane's Fashion Dashoard - Ordered Item ${data.id}`
   }, [])
 
   return (

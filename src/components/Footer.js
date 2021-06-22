@@ -19,7 +19,7 @@ const Footer = () => {
 
         <li><a rel="noopener noreferrer" target="_blank" href="https://web.facebook.com/Janesfashionn/"><Footersocial  src={facebook} alt="Jane's Fashion Social media"/></a></li>
         
-        <li><a target="_blank" href="https://www.instagram.com/janesfashionn/" rel="noopener noreferrer"  ><Footersocial  src={instagram} alt="Jane's Fashion Social media" /></a></li>
+        <li><a target="_blank" href="https://www.instagram.com/_janesfashion/" rel="noopener noreferrer"  ><Footersocial  src={instagram} alt="Jane's Fashion Social media" /></a></li>
     </ul>
 
     </Footericons>

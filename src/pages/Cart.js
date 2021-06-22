@@ -77,6 +77,7 @@ const handleRemoveItem = slug =>{
     
  
 useEffect(() => {
+  document.title = `Jane's Fashion - Cart`
   props.fetchCart()
     handleFetchCart()
  

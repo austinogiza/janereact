@@ -31,7 +31,7 @@ const Address = () => {
   useEffect(() => {
     fetchAddress()
     
- 
+    document.title = `Jane's Fashion Dashoard - Address`
   }, [])
 
   const handleAddressDelete = id=>{

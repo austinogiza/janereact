@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Banner from '../components/Banner'
 import ProductCard from '../components/ProductCard'
 import { themes } from '../styles/ColorStyles'
-import {  H1 } from '../styles/TextStyles'
+import {  H2 } from '../styles/TextStyles'
 import Display from '../components/Display'
 import Newsletter from '../components/Newsletter'
 import axios from 'axios'
@@ -26,7 +26,7 @@ const Home = (props) => {
     const [pageLoading, setPageLoading] = useState(false)
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState(null)
-    const [error, setError] = useState(null)
+
     const [modalProduct, setModalProduct] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [ modalLoading, setModalLoading] = useState(false)
@@ -110,7 +110,6 @@ axios
        {modalLoading && <ModalLoading />}
        {showModal && 
        <Modal modalClose={closeModal}/> }  
-{error&&<p>{error}</p>}
             <Product>
          
           
@@ -175,7 +174,7 @@ span{
 }
 
 `
-const Titleh1 = styled(H1)`
+const Titleh1 = styled(H2)`
 text-align: center;
 `
 

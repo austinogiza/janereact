@@ -46,7 +46,9 @@ export const getDefaultShippingFeeURL = `${endpoint}/default-shipping-fee/`
 export const addDefaultShippingFeeURL = `${endpoint}/add-default-shipping-fee/`
 export const addressDefaultCreateURL = `${endpoint}/address/create/default/`
 export const paymentCheckView = `${endpoint}/payment-check/`
-
+export const shopProducts = `${endpoint}/shop/`
+export const shopProductSearch = `${endpoint}/shop-search/`
+export const recentlyViewed = `${endpoint}/recent-viewed/`
 
 
 

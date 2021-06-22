@@ -80,7 +80,7 @@ const App = (props) => {
 <Route exact path='/account/address' component={Address}/>
 <Route exact path='/account/address/edit/:id' component={AddressUpdate}/>
 <Route exact path='/account/wishlist' component={Wishlist}/>
-
+<Route exact path='/search/:query' component={Shop}/>
 <Route component={NotFound}/>
 </Switch>
 <Top/>

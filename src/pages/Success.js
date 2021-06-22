@@ -7,12 +7,13 @@ import {H2} from '../styles/TextStyles'
 import { connect } from 'react-redux';
 import { fetchCart } from '../store/actions/cart'
 import { authAxios } from '../utils';
-import { paymentCheckView } from '../constants';
+import { paymentCheckView, orderSummaryURL} from '../constants';
 import PageSkeleton from '../components/PageSkeleton'
 
 const Success = (props) => {
 
   const [pageLoading, setPageLoading] = useState(false)
+  const [data, setData] = useState(null)
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -22,25 +23,54 @@ const Success = (props) => {
     }
   };
 
+  
+  const handleFetchCart = () =>{
+
+    authAxios
+    .get(orderSummaryURL)
+    .then(res=>{
+  
+      console.log(res)
+      if(res.status === 500){
+        props.fetchCart()
+      }
+     
+   
+    }).catch(err=>{
+ 
+
+    })
+  }
   const fetchPaid=()=>{
     setPageLoading(true)
     authAxios
     .get(paymentCheckView)
     .then(res=>{
-      props.fetchCart()
+      setData(res.data)
+      console.log(res)
+
       setPageLoading(false)
     })
     .catch(err=>{
       setPageLoading(false)
     })
   }
+
+ 
+
   
 useEffect(() => {
   fetchPaid()
- 
-  
+  handleFetchCart()
 
-  },[])
+  document.title = "Payment Success - Jane's Fashion"
+ 
+
+   return ()=>{
+    props.fetchCart()
+   }
+
+  }, [])
 
   return (
    <SuccessView>
@@ -49,7 +79,10 @@ useEffect(() => {
 
 <>
 
-<OrderImage>
+{
+  data && <>
+
+  <OrderImage>
    <Lottie 
 	    options={defaultOptions}
         height={100}
@@ -63,6 +96,11 @@ useEffect(() => {
        <GoShop to='/shop'>Back to shop</GoShop>
        <GoDash to='/account'>Dashboard</GoDash>
      </SuccesButtons>
+
+  </>
+
+}
+
      
 
 </>}

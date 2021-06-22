@@ -13,7 +13,7 @@ const HeaderSkeleton = () => {
 }
 
 const loading = keyframes`
-0%{
+0% {
   transform: translateX(-150%);
 }
 50%{

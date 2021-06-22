@@ -30,7 +30,9 @@ const [passwordBorder, setPasswordBorder]=useState(false)
     useEffect(() => {
   
   return () => {
-      setFormError(null)
+    setFormError(null)
+    setEmailError(null)
+    setPasswordError(null)
   }
 }, [])
     const {
@@ -40,8 +42,7 @@ const [passwordBorder, setPasswordBorder]=useState(false)
 
     if(authenticated){
         return <Redirect to='/'/>
-     
-        
+ 
     }
     if(authenticated){
         props.fetchCart()
@@ -73,15 +74,11 @@ setPasswordBorder(false)
 
         }
         else{
-            if(email === "" && password === ""){
-                setFormError("Please enter all fields")
-                setBorder(true)
-            }
-            else if(password === ""){
+           if(password === ""){
                 setPasswordError("Please enter your password")
                 setPasswordBorder(true)
             }
-            else if(email ===""){
+        if(email ===""){
                 setEmailError("Please enter your email address")
                 setEmailBorder(true)
             }
@@ -103,24 +100,24 @@ setPasswordBorder(false)
        </Logintitle>
        <Loginform onSubmit={onSubmit}>
        {error && <Formmessage><p>{error}</p></Formmessage>}
+       {formError && <Formmessage><p>{formError}</p></Formmessage>}
     <Label>
     <LabelName>Email</LabelName>
       <Logininput type="email" className={(border && 'form-error') || (emailBorder && 'form-error')} placeholder="Your Email" onChange={onChange} name="email" value={email} />
   
        {emailError && <Formmessage><p>{emailError}</p></Formmessage>}
-       {formError && <Formmessage><p>{formError}</p></Formmessage>}
-       </Label>
+             </Label>
        <Label>
        <LabelName>Password</LabelName>
        <Logininput className={(border && 'form-error') || (passwordBorder && 'form-error')} type="password" placeholder="Enter Password" onChange={onChange} name="password" 
        value={password} />
        {passwordError && <Formmessage><p>{passwordError}</p></Formmessage>}
-       {formError && <Formmessage><p>{formError}</p></Formmessage>}
+    
        </Label>
        <Forgot><Link to='/account/login/reset'>Forgot Password?</Link></Forgot>
 
 
-       <Loginbutton> {loading ? <Loading /> : "Login"}</Loginbutton>
+       <Loginbutton type="submit"> {loading ? <Loading /> : "Login"}</Loginbutton>
 
     
            
@@ -209,7 +206,7 @@ max-width: 400px;
 transition: 0.4s ease-in;
 min-height: 10px;
 text-align: center;
-margin: 24px auto;
+margin: 8px auto;
 color:  ${themes.red};
 `
 const Logininput = styled(formInput)`
