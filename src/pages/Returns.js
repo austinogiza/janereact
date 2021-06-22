@@ -7,12 +7,11 @@ const Returns = () => {
     return (
       <Returnspage>
 
-          <ReturnsContainer>
-<Returnsleft>
+          <ReturnsContainer className='grid  gap-6 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 w-full h-full grid-cols-1 max-w-6xl mx-auto py-4 px-4'>
+<Returnsleft className="text-left flex flex-col">
     <Returnsh1>Returns Policy</Returnsh1>
     <Returnslink>
-    
-        <a href="mailto:support@janes-fashion.com">Support@janes-fashion.com</a>
+    <a href="mailto:support@janes-fashion.com">Support@janes-fashion.com</a>
     </Returnslink>
 </Returnsleft>
 
@@ -40,23 +39,7 @@ justify-content: center;
 align-items: center;
 `
 const ReturnsContainer = styled.div`
-max-width:1200px;
 
-height: 100%;
-margin: 0 auto;
-display: grid;
-grid-template-columns: 400px auto;
-grid-auto-rows: minmax(200px, auto);
-justify-content: center;
-align-items: center;
-padding: 10px 25px;
-grid-gap: 30px;
-
-@media only screen and (max-width: 650px){
-    grid-template-columns: 1fr;
-grid-auto-rows: minmax(100px, auto);
-
-}
 `
 const Returnsleft = styled.div`
 width:100%;

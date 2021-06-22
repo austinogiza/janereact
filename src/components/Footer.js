@@ -39,7 +39,7 @@ const Footer = () => {
     </Footerdetails>
     <FooterLinks>
 
-<ul>
+<ul className="text-center">
 
 
 

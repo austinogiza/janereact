@@ -12,7 +12,7 @@ const About = () => {
 
 
 
-<Header className="mb-2 -mt-3.5 min-h-0  h-96 py-5 px-4 bg-blue-50">
+<Header className="mb-2 -mt-3.5 max-h-96  h-96 py-5 px-4 bg-blue-50">
 <Headerh3 className=" max-w-2xl mx-auto text-center" >
 <Coverh1 className="2xl:text-6xl lg:text-6xl xl:text-6xl text-3xl mb-2 mt-2">"GIVING THE BEST AT THE BEST PRICE"</Coverh1>
     <Coverp className="text-base  text-gray-500 mb-2">Jane's Fashion is an online shop. We sell male and female fashion items.
@@ -48,18 +48,18 @@ We import our items directly from the manufacturers and sell in wholesale and re
 </Teamtitle>
 <Teamcard className="  mt-6  grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-3 xl:grid-cols-3  gap-5">
 
-    <Teamsingle className="max-w-md min-h-0 h-full w-full flex flex-col text-center">
+    <Teamsingle className="max-w-md max-h-72 h-full w-full flex flex-col text-center">
         <Teamimage className="h-full max-h-96 max-w-md w-full" src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624314323/60a5c1bcbc4f722522df1ec2_dana-cutts-salon-webflow-template-p-500_a5yakh.jpg" alt="Jane's Fashion team"/>
         <Teamname className="text-xl font-medium mt-2 mb-2 text-black">Osasogie Igbinere</Teamname>
         <Teamrole className="text-lg">manager</Teamrole>     
     </Teamsingle>
-    <Teamsingle className="max-w-md min-h-0 h-full w-full flex flex-col text-center">
+    <Teamsingle className="max-w-md max-h-72 h-full w-full flex flex-col text-center">
         <Teamimage className="h-full max-h-96 max-w-md w-full" src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624314323/60a5c1bcbc4f722522df1ec2_dana-cutts-salon-webflow-template-p-500_a5yakh.jpg" alt="Jane's Fashion team"/>
         <Teamname className="text-xl font-medium mt-2 mb-2 text-black">Osasogie Igbinere</Teamname>
         <Teamrole className="text-lg">manager</Teamrole>     
     </Teamsingle>
 
-    <Teamsingle className="max-w-md min-h-0 h-full w-full flex flex-col text-center">
+    <Teamsingle className="max-w-md max-h-72 h-full w-full flex flex-col text-center">
         <Teamimage className="h-full max-h-96 max-w-md w-full" src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624314323/60a5c1bcbc4f722522df1ec2_dana-cutts-salon-webflow-template-p-500_a5yakh.jpg" alt="Jane's Fashion team"/>
         <Teamname className="text-xl font-medium mt-2 mb-2 text-black">Osasogie Igbinere</Teamname>
         <Teamrole className="text-lg">manager</Teamrole>     
@@ -73,13 +73,13 @@ We import our items directly from the manufacturers and sell in wholesale and re
 </Team>
         
 
-<Aboutrow className="flex flex-col w-full py-4 px-4 bg-black h-full min-h-0 justify-center items-center">
+<Aboutrow className="flex flex-col w-full py-4 px-4 bg-black h-full max-h-72 justify-center items-center">
 <Aboutp className="lg:text-4xl 2xl:text-4xl xl:text-4xl text-2xl text-white mt-6 mb-4">Follow us on Instagram
 </Aboutp>
 
-<Aboutcover className='max-w-7xl grid grid-cols-1 2xl:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 mt-10 mb-6 gap-5 mx-auto h-full min-h-0 '>
+<Aboutcover className='max-w-7xl grid grid-cols-1 2xl:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 mt-10 mb-6 gap-5 mx-auto h-full max-h-72 '>
 
-    <Aboutimage className='h-full flex flex-col min-h-0 max-w-xs'>
+    <Aboutimage className='h-full flex flex-col max-h-72 max-w-xs'>
 
         
             <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313707/d6a2c859-3ac5-4689-9377-fc55c35e5471_bxqzee.jpg" className=' px-2 py-2 max-h-64 h-full w-full'/>
@@ -87,14 +87,14 @@ We import our items directly from the manufacturers and sell in wholesale and re
             <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313708/4fcec200-6cbe-44b3-8b27-1214ae13839a_c2z6ml.jpg" className=' px-2 py-2 max-h-64 h-full w-full'/>
             
     </Aboutimage>
-    <Aboutimage className='h-full flex flex-col min-h-0 max-w-xs'>
+    <Aboutimage className='h-full flex flex-col max-h-72 max-w-xs'>
 
         
             <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313708/42fff46b-a29d-447a-bb30-663c47506170_sbodcb.jpg" className=' px-2 py-2 max-h-64 h-full w-full'/>
             <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313708/6a2d7c13-0fd7-44e7-8a47-b2ad2b30ee13_sm2s6d.jpg" className=' px-2 py-2 max-h-64 h-full w-full'/>
             
     </Aboutimage>
-    <Aboutimage className='h-full flex flex-col min-h-0 max-w-xs'>
+    <Aboutimage className='h-full flex flex-col max-h-72 max-w-xs'>
 
         
             <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313708/6cdc0d60-2c34-40cf-aa02-82cda6b561e8_bdxdpm.jpg" className=' px-2 py-2  max-h-96 h-full w-full'/>
@@ -102,7 +102,7 @@ We import our items directly from the manufacturers and sell in wholesale and re
            
             
     </Aboutimage>
-    <Aboutimage className='h-full flex flex-col min-h-0 max-w-xs'>
+    <Aboutimage className='h-full flex flex-col max-h-72 max-w-xs'>
 
         
             <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313707/ee3441b3-cc06-4a6b-9a0a-531a17430ef1_xftgld.jpg" className=' px-2 py-2 max-h-64 h-full w-full'/>
