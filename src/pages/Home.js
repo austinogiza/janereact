@@ -118,13 +118,13 @@ axios
     <ProductTitle><Titleh1>Our Fab <span>Products</span></Titleh1></ProductTitle>
   
     <Products className="products">
-    {pageLoading && [1,2,3, 4,5,6].map(n=> <Skeleton key={n}/>)}
+    {/* {pageLoading && [1,2,3, 4,5,6].map(n=> <Skeleton key={n}/>)}
     {!pageLoading && data && data.map(item=>{
        return (
         <ProductCard key={item.id} slug={`/product/${item.slug}`} desc={item.description} loading={loading} img={item.image} price={item.price} discount={item.discount_price} title={item.title} cardAdd={()=> handleAddToCart(item.title,item.slug)} cardSearch={() =>cardModal(item.slug)} />
        )
     })}
- 
+  */}
 
     </Products>
 </Productcontainer>
