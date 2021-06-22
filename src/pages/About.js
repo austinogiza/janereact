@@ -111,7 +111,7 @@ We import our items directly from the manufacturers and sell in wholesale and re
     </Aboutimage>
 </Aboutcover>
 
-<Aboutcover className="mb-10 w-full min-h-full h-full flex justify-center items-center mt-20">
+<Aboutcover className="mb-10 w-full min-h-full h-full flex justify-center items-center  mt-24">
 <Aboutbutton  href="https://www.instagram.com/_janesfashion/" target="_blank" rel="noopener noreferrer">Follow us</Aboutbutton>
 </Aboutcover>
 </Aboutrow>

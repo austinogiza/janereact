@@ -35,20 +35,27 @@ const BlogDetail = () => {
       
     }, [])
     return (
-       <Blog>
+       <Blog className="w-full h-auto min-h-0 flex flex-col">
        {loading && <Loading/>}
     
 {post && (
+
 <BlogMainBody className="w-full h-auto min-h-0 flex flex-col">
     
-<BlogThumbnail style={{backgroundImage: ` url(${post.image})`, backgroundAttachment: "fixed"}}>
-<Blogdescription>
+<BlogThumbnail className="w-full  max-h-96 h-96 min-h-0 flex flex-col" 
+style={{backgroundImage: `url(${post.image})`, 
+backgroundAttachment: "fixed", backgroundPosition:"center center"}}>
+</BlogThumbnail>
+
+<BlogContent>
+    
+<Blogdescription >
 
 <Postdate>{new Date(`${post.time}`).toLocaleDateString()}</Postdate>
 <PostTags>{post.tags}</PostTags>
 </Blogdescription>
 <Blogtitletext>{post.title}</Blogtitletext>
-</BlogThumbnail>
+
 
 
 <BlogBody>
@@ -56,6 +63,7 @@ const BlogDetail = () => {
         {post.content}
     </BlogText>
 </BlogBody>
+</BlogContent>
 
 <Posted>
     <Posttitle>
@@ -72,10 +80,11 @@ const BlogDetail = () => {
 
 
 const Blog = styled.div`
-min-height: 600px;
-width: 100%;
+
 `
 
+
+const BlogContent = styled.div``
 const BlogMainBody = styled.div`
 min-height: 600px;
 width: 100%;
