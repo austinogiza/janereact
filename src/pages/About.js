@@ -82,16 +82,16 @@ We import our items directly from the manufacturers and sell in wholesale and re
     <Aboutimage className='h-full flex flex-col min-h-full max-w-xs'>
 
         
-            <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313707/d6a2c859-3ac5-4689-9377-fc55c35e5471_bxqzee.jpg" className=' px-2 py-2 max-h-64 h-full w-full'/>
+            <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313707/d6a2c859-3ac5-4689-9377-fc55c35e5471_bxqzee.jpg" className=' px-2 py-2 max-h-96 h-full w-full'/>
             
-            <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313708/4fcec200-6cbe-44b3-8b27-1214ae13839a_c2z6ml.jpg" className=' px-2 py-2 max-h-64 h-full w-full'/>
+            <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313708/4fcec200-6cbe-44b3-8b27-1214ae13839a_c2z6ml.jpg" className=' px-2 py-2 max-h-96 h-full w-full'/>
             
     </Aboutimage>
     <Aboutimage className='h-full flex flex-col min-h-full max-w-xs'>
 
         
-            <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313708/42fff46b-a29d-447a-bb30-663c47506170_sbodcb.jpg" className=' px-2 py-2 max-h-64 h-full w-full'/>
-            <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313708/6a2d7c13-0fd7-44e7-8a47-b2ad2b30ee13_sm2s6d.jpg" className=' px-2 py-2 max-h-64 h-full w-full'/>
+            <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313708/42fff46b-a29d-447a-bb30-663c47506170_sbodcb.jpg" className=' px-2 py-2 max-h-96 h-full w-full'/>
+            <Aboutimg src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624313708/6a2d7c13-0fd7-44e7-8a47-b2ad2b30ee13_sm2s6d.jpg" className=' px-2 py-2 max-h-96 h-full w-full'/>
             
     </Aboutimage>
     <Aboutimage className='h-full flex flex-col min-h-full max-w-xs'>
@@ -111,7 +111,7 @@ We import our items directly from the manufacturers and sell in wholesale and re
     </Aboutimage>
 </Aboutcover>
 
-<Aboutcover className="mb-10  mt-10">
+<Aboutcover className="mb-10  mt-16">
 <Aboutbutton  href="https://www.instagram.com/_janesfashion/" target="_blank" rel="noopener noreferrer">Follow us</Aboutbutton>
 </Aboutcover>
 </Aboutrow>

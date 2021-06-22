@@ -8,7 +8,7 @@ const Returns = () => {
     return (
       <Returnspage className="w-full h-full flex flex-col min-h-full">
 
-          <ReturnsContainer className='grid gap-6 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 w-full h-full grid-cols-1 max-w-6xl mx-auto py-4 px-4'>
+          <ReturnsContainer className='grid gap-6 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 w-full h-full min-h-full grid-cols-1 max-w-6xl mx-auto py-4 px-4'>
           <Returnsleft className="text-left flex flex-col">
     <Returnsh1>Returns Policy</Returnsh1>
     <Returnslink>
@@ -17,17 +17,10 @@ const Returns = () => {
 </Returnsleft>
 
 <Returnright>
-<Faqcard>
-    
 <Returnsh2>Refund & Returns</Returnsh2>
 <Returnsp>
-
-
 When the item received is not what is paid for, you are entitled to a refund within 7 days, from the day you receive the item.
 </Returnsp>
-</Faqcard>
-
-
 </Returnright>
           </ReturnsContainer>
 
@@ -39,12 +32,7 @@ const Returnspage = styled.div`
 
 `
 
-const Faqcard = styled.div`
 
-margin: 8px 0;
-width: 100%;
-height: 100%;
-`
 const ReturnsContainer = styled.div`
 
 `
