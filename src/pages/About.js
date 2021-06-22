@@ -48,18 +48,18 @@ We import our items directly from the manufacturers and sell in wholesale and re
 </Teamtitle>
 <Teamcard className="  mt-6  mb-6 grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-3 xl:grid-cols-3  gap-5">
 
-    <Teamsingle className="max-w-md max-h-96 h-full w-full flex flex-col text-center">
+    <Teamsingle className="max-w-md  h-full w-full flex flex-col text-center">
         <Teamimage className="h-full max-h-96 max-w-md w-full" src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624314323/60a5c1bcbc4f722522df1ec2_dana-cutts-salon-webflow-template-p-500_a5yakh.jpg" alt="Jane's Fashion team"/>
         <Teamname className="text-xl font-medium mt-2 mb-2 text-black">Osasogie Igbinere</Teamname>
         <Teamrole className="text-lg">manager</Teamrole>     
     </Teamsingle>
-    <Teamsingle className="max-w-md max-h-96 h-full w-full flex flex-col text-center">
+    <Teamsingle className="max-w-md  h-full w-full flex flex-col text-center">
         <Teamimage className="h-full max-h-96 max-w-md w-full" src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624314323/60a5c1bcbc4f722522df1ec2_dana-cutts-salon-webflow-template-p-500_a5yakh.jpg" alt="Jane's Fashion team"/>
         <Teamname className="text-xl font-medium mt-2 mb-2 text-black">Osasogie Igbinere</Teamname>
         <Teamrole className="text-lg">manager</Teamrole>     
     </Teamsingle>
 
-    <Teamsingle className="max-w-md max-h-96 h-full w-full flex flex-col text-center">
+    <Teamsingle className="max-w-md h-full w-full flex flex-col text-center">
         <Teamimage className="h-full max-h-96 max-w-md w-full" src="https://res.cloudinary.com/jane-s-fashion/image/upload/v1624314323/60a5c1bcbc4f722522df1ec2_dana-cutts-salon-webflow-template-p-500_a5yakh.jpg" alt="Jane's Fashion team"/>
         <Teamname className="text-xl font-medium mt-2 mb-2 text-black">Osasogie Igbinere</Teamname>
         <Teamrole className="text-lg">manager</Teamrole>     
@@ -77,7 +77,7 @@ We import our items directly from the manufacturers and sell in wholesale and re
 <Aboutp className="lg:text-4xl 2xl:text-4xl xl:text-4xl text-2xl text-white mt-6 mb-4">Follow us on Instagram
 </Aboutp>
 
-<Aboutcover className='max-w-7xl grid grid-cols-1 2xl:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 mt-10 mb-6 gap-5 mx-auto h-full '>
+<Aboutcover className='max-w-7xl grid grid-cols-1 2xl:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 mt-10 gap-5 mx-auto h-full  min-h-full mb-10'>
 
     <Aboutimage className='h-full flex flex-col min-h-full max-w-xs'>
 
