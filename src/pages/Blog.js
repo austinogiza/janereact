@@ -14,39 +14,38 @@ const Blog = () => {
 
     const [posts, setPosts] = useState(null);
     const [error, setError] = useState(null);
-    const [errorFade, setErrorFade] = useState(false);
+ 
     const [loading, setLoading] = useState(false)
 
-     useEffect(() => {
- setLoading(true)
 
-     async function fetchData(){
-        try {
-            const res = await axios.get(blogList);
+    const fetchData =()=>{
+        setLoading(true)
+        axios.get(blogList)
+        .then(res=>{
             console.log(res.data)
             // setPosts(res.data)
             setLoading(false)
-           
-        } catch (error) {
+        })
+        .catch(error=>{
             setError(error.message)
             setLoading(false)
+
+        })
+    }
+    
+     useEffect(()=>{
+        fetchData()
+       
         
-        }
-     }
-     fetchData()
      }, [])
 
+   
 
-     if(error){
-        setTimeout(() => {
-            setErrorFade(true)
-        }, 3000);
-      }
 
     return (
       <Blogcontainer>
 
-{error&& <FailedNotification showOff={errorFade} text={error} title="Error"/>}
+{error&& <FailedNotification text={error} title="Error"/>}
 
       <Blogsearch>
 

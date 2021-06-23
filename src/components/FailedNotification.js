@@ -1,19 +1,25 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Transition } from '@headlessui/react'
 import { XCircleIcon } from '@heroicons/react/outline'
 import { XIcon } from '@heroicons/react/solid'
 
-const FailedNotification =({text, title, showOff})=> {
+const FailedNotification =({text, title})=> {
   const [show, setShow] = useState(true)
+  const [timer, setTimer]=useState(4)
+
+useEffect(()=>{
+
+    window.setInterval(()=>{
+        setTimer((timer)=> timer - 1)
+       
+    }, 1000)
+    if(timer === 0){
+        setShow(false)
+     }
+}, [timer])
 
 
-
-  if(showOff){
-    setShow(false)
-
-  
-  }
   return (
     <>
 
