@@ -47,8 +47,8 @@ position: fixed;
 z-index: 300;
 bottom: 20px;
 right: 30px;
-height: 40px;
-width: 40px;
+height: 64px;
+width: 64px;
 background: ${themes.jane};
 
 cursor: pointer;
@@ -64,8 +64,8 @@ justify-content:center;
 align-items: center;
 `
 const Topicon = styled(FaChevronUp)`
-height: 24px;
-width: 24px;
+height: 40px;
+width: 40px;
 color: ${themes.white};
 display: flex;
 justify-content:center;

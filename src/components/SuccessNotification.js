@@ -4,7 +4,7 @@ import { Transition } from '@headlessui/react'
 import { CheckCircleIcon } from '@heroicons/react/outline'
 import { XIcon } from '@heroicons/react/solid'
 
-export default function Example() {
+const SuccessNotifications =()=> {
   const [show, setShow] = useState(true)
 
   return (
@@ -56,3 +56,6 @@ export default function Example() {
     </>
   )
 }
+
+
+export default SuccessNotifications

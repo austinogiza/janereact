@@ -2,9 +2,10 @@ import axios from 'axios'
 import React, {useEffect, useState}from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import Bonus from '../components/Bonus'
+
+import FailedNotification from '../components/FailedNotification'
 import Loading from '../components/Loading'
-import Message from '../components/Message'
+
 import { blogList } from '../constants'
 import { themes } from '../styles/ColorStyles'
 import { Caption, H2, H3} from '../styles/TextStyles'
@@ -13,6 +14,7 @@ const Blog = () => {
 
     const [posts, setPosts] = useState(null);
     const [error, setError] = useState(null);
+    const [errorFade, setErrorFade] = useState(false);
     const [loading, setLoading] = useState(false)
 
      useEffect(() => {
@@ -22,19 +24,29 @@ const Blog = () => {
         try {
             const res = await axios.get(blogList);
             console.log(res.data)
-            setPosts(res.data)
+            // setPosts(res.data)
             setLoading(false)
            
         } catch (error) {
             setError(error.message)
             setLoading(false)
+        
         }
      }
      fetchData()
      }, [])
 
+
+     if(error){
+        setTimeout(() => {
+            setErrorFade(true)
+        }, 3000);
+      }
+
     return (
       <Blogcontainer>
+
+{error&& <FailedNotification showOff={errorFade} text={error} title="Error"/>}
 
       <Blogsearch>
 
@@ -44,7 +56,7 @@ const Blog = () => {
 <Blogh1>Recent Posts</Blogh1>
 </Blogtitle>
 <Blogcard>
-{error&& <Message message={error} />}
+
 {loading && <Loading/>}
 
  {posts && posts.map((post) => {
@@ -69,7 +81,7 @@ const Blog = () => {
 
  })}
 </Blogcard>
-<Bonus/>
+
 
       </Blogcontainer>
     )
