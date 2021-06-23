@@ -11,7 +11,7 @@ import { secondaryButton } from '../styles/Button'
 
 const BlogDetail = () => {
 
-    const [post, setPost] = useState(null)
+    const [post, setPost] = useState(false)
 
     const [loading, setLoading] = useState(false)
     
@@ -34,7 +34,7 @@ const BlogDetail = () => {
 
     useEffect(() => {
         fetchPost()
-      
+        setPost(true)
     }, [])
     return (
        <Blog className="w-full h-auto min-h-0 flex flex-col">

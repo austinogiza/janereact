@@ -13,7 +13,7 @@ import { Caption, H2, H3} from '../styles/TextStyles'
 const Blog = () => {
 
     const [posts, setPosts] = useState(null);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(false);
  
     const [loading, setLoading] = useState(false)
 
@@ -36,7 +36,7 @@ const Blog = () => {
      useEffect(()=>{
         fetchData()
        
-        
+        setError(true)
      }, [])
 
    
