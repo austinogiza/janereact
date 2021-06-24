@@ -123,15 +123,11 @@ Contact us
 <Contactright>
 <Form onSubmit={onSubmit}>
 
-<Label>
-<h2>Name</h2>
-<Input type="text" placeholder="Your Name" value={name} name="name" onChange={onChange}  ></Input>
+<Input required type="text" placeholder="Your Name" value={name} name="name" onChange={onChange}  ></Input>
 
-</Label>
-
-<Input  placeholder="Your Email" type="email" value={email} name="email" onChange={onChange}  ></Input>
-<Input  placeholder="Subject" value={subject} name="subject" type="text"  onChange={onChange}  ></Input>
-<Textarea placeholder="Your Message" value={message} name="message" onChange={onChange} >
+<Input required  placeholder="Your Email" type="email" value={email} name="email" onChange={onChange}  ></Input>
+<Input required placeholder="Subject" value={subject} name="subject" type="text"  onChange={onChange}  ></Input>
+<Textarea required placeholder="Your Message" value={message} name="message" onChange={onChange} >
 
 </Textarea>
 <Button type="submit" className=" mt-6" >{loading?  <Loading/>: "Send Message "}</Button>
@@ -178,8 +174,6 @@ a{
 
 }
 `
-
-const Label = styled.label``
 
 const Contacticons = styled.div`
 min-height: 50px;
