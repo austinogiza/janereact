@@ -123,13 +123,18 @@ Contact us
 <Contactright>
 <Form onSubmit={onSubmit}>
 
-<Input type="text" required placeholder="Your Name" value={name} name="name" onChange={onChange}  ></Input>
-<Input required  placeholder="Your Email" type="email" value={email} name="email" onChange={onChange}  ></Input>
-<Input  required placeholder="Subject" value={subject} name="subject" type="text"  onChange={onChange}  ></Input>
-<Textarea required placeholder="Your Message" value={message} name="message" onChange={onChange} >
+<Label>
+<h2>Name</h2>
+<Input type="text" placeholder="Your Name" value={name} name="name" onChange={onChange}  ></Input>
+
+</Label>
+
+<Input  placeholder="Your Email" type="email" value={email} name="email" onChange={onChange}  ></Input>
+<Input  placeholder="Subject" value={subject} name="subject" type="text"  onChange={onChange}  ></Input>
+<Textarea placeholder="Your Message" value={message} name="message" onChange={onChange} >
 
 </Textarea>
-<Button type="submit" >Send Message {loading &&  <Loading/>}</Button>
+<Button type="submit" className=" mt-6" >{loading?  <Loading/>: "Send Message "}</Button>
 </Form>
 </Contactright>
 
@@ -156,6 +161,8 @@ color: ${themes.white};
 text-transform: capitalize;
 
 `
+
+const FormError = styled.div``
 const Contactbox = styled.div`
 min-height: 50px;
 width:100%;
@@ -171,6 +178,8 @@ a{
 
 }
 `
+
+const Label = styled.label``
 
 const Contacticons = styled.div`
 min-height: 50px;
@@ -220,7 +229,7 @@ margin: 40px auto;
 justify-content: flex-start;
 align-items: center;
 @media only screen and (max-width: 550px){
-    flex-direction: column;
+    flex-direction: column-reverse;
 }
 `
 
@@ -265,6 +274,13 @@ const Input = styled(formInput)``
 
 
 const Textarea = styled(MainTextarea)``
-const Button = styled(submitButton)``  
+const Button = styled(submitButton)`
+:active{
+    outline: none;
+}
+:focus{
+    outline: none;
+}
+`  
 
 export default Contact;
